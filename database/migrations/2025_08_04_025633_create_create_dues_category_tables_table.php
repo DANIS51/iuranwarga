@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('create_dues_category_tables', function (Blueprint $table) {
+        Schema::create('dues_categories', function (Blueprint $table) {
             $table->id();
+            $table->enum("period", ['mingguan', 'bulanan', 'tahunan']);
+            $table->integer("nominal");
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('create_dues_category_tables');
+        Schema::dropIfExists('dues_categories');
     }
 };

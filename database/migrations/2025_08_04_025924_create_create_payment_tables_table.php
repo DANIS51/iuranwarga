@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('create_payment_tables', function (Blueprint $table) {
             $table->id();
+            $table->integer("id");
+            $table->enum("period", ['mingguan', 'bulanan', 'tahunan']);
+            $table->integer('nominal');
+            $table->string('petugas');
             $table->timestamps();
         });
     }

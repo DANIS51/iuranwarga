@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('create_dues_members_tables', function (Blueprint $table) {
+        Schema::create('dues_members', function (Blueprint $table) {
             $table->id();
+            $table->integer("iduser");
+            $table->integer("idduescategory");
             $table->timestamps();
         });
     }
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('create_dues_members_tables');
+        Schema::dropIfExists('dues_members');
     }
 };
