@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('username')->unique();
             $table->string('password');
-            $table->number('nohp');
+            $table->integer('nohp');
             $table->string('addres');
-            $table->enum('level', ['admin','warga'])->default('level');
+            $table->enum('level', ['admin','warga'])->default('warga');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -29,5 +29,5 @@ return new class extends Migration
         {
             Schema::dropIfExists('users');
         }
- 
+
 };
