@@ -1,49 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>@yield('title')</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f5f5f5;
-        }
-        header, footer {
-            background: #007BFF;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-        main {
-            padding: 2rem;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Landing Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1e2140, #060714);
+      color: white;
+    }
+
+    .hero {
+      padding: 100px 0;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-img {
+      max-width: 100%;
+    }
+
+    .nav-link {
+      color: white !important;
+      font-weight: bold;
+      margin: 0 10px;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>CD Landing Page</h1>
-    </header>
+  @include('navbar')
 
-    <main>
-        <div class="container">
-            @yield('content')
-        </div>
-    </main>
 
+<<<<<<< HEAD
     <footer>
         <p>&copy; 2025 My CD danis maulid</p>
     </footer>
+=======
+  @yield('content')
+>>>>>>> e8d66b3b84f40096832326681a03a374576f6ef9
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
