@@ -42,7 +42,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 My CD Website</p>
+        <p>&copy; 2025 My CD danis maulid</p>
     </footer>
 
 </body>
