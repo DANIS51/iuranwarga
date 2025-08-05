@@ -19,6 +19,19 @@
     .btn-light:hover {
         background-color: #e0e0e0;
     }
+    .custom-outline
+     {
+        border: 2px solid #5865F2;
+        background: transparent;
+        color: #005eff;
+        transition: all 0.3s ease;
+    }
+
+    .custom-outline:hover
+    {
+        background-color: #005eff;
+        color: white;
+    }
 </style>
 <nav class="navbar navbar-expand-lg px-4">
   <div class="container-fluid">
@@ -40,7 +53,7 @@
         <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
       </ul>
       <a href="#" class="btn btn-outline-light rounded-pill fw-bold me-1">Sign In</a>
-      <a href="#" class="btn btn-light rounded-pill fw-bold me-5 ms-3">Log In</a>
+      <a href="#" class="btn custom-outline rounded-pill fw-bold me-5 ms-3">Log In</a>
     </div>
   </div>
 </nav>
