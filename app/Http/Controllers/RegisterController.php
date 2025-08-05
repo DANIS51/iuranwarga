@@ -24,7 +24,6 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'nohp' => 'nullable|string|max:20',
             'address' => 'nullable|string',
-            'level' => 'required|in:admin,warga',
         ]);
 
         $user = User::create([
@@ -34,13 +33,11 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
             'nohp' => $request->nohp,
             'address' => $request->address,
-            'level' => $request->level,
+            'level' => 'warga', 
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect()->route('dashboard')->with('success', 'Registrasi berhasil! Selamat datang ' . $user->name);
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login dengan akun Anda.');
     }
 }
