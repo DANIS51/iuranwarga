@@ -6,9 +6,9 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-6 mb-5 mb-lg-0">
-        <h1>GROUP CHAT THAT’S ALL FUN & GAMES</h1>
+        <h1>Mudah Kelola Data Warga Dan Iuran RT/RW</h1>
         <p>
-          Discord is great for playing games and chilling with friends, or even building a worldwide community. Customize your own space to talk, play, and hang out.
+            Aplikasi ini dirancang untuk memudahkan pengelolaan data warga dan iuran RT/RW, sehingga Anda dapat fokus pada hal-hal yang lebih penting.
         </p>
         <a href="#" class="btn btn-light btn-lg rounded-pill fw-bold">Get Started</a>
       </div>
