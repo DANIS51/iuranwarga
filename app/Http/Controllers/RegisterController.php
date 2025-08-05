@@ -33,8 +33,7 @@ class RegisterController extends Controller
             'address' => $request->address,
             'level' => $request->level,
         ]);
-
-        auth()->login($user);
+ 
         return redirect('/dashboard')->with('success', 'Registrasi berhasil!');
     }
 }
