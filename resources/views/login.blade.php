@@ -85,19 +85,5 @@
 </div>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-<script>
-    // Toggle password visibility
-    document.getElementById('togglePassword').addEventListener('click', function() {
-        const password = document.getElementById('password');
-        const icon = this.querySelector('i');
-
-        if (password.type === 'password') {
-            password.type = 'text';
-            icon.className = 'fas fa-eye-slash';
-        } else {
-            password.type = 'password';
-            icon.className = 'fas fa-eye';
-        }
-    });
-</script>
+ 
 @endsection
