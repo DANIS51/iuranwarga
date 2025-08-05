@@ -3,7 +3,13 @@
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/home', function () {
-    return view('home');
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+
+Route::redirect('/home', '/');
+
+
+Route::get('/welcome', function () {
+    return view('welcome');
 });
-Route::get('/home', [HomeController::class, 'index'])->name('home');
