@@ -46,13 +46,13 @@
   @include('navbar')
 
 
-<<<<<<< HEAD
+
     <footer>
         <p>&copy; 2025 My CD danis maulid</p>
     </footer>
-=======
+ 
   @yield('content')
->>>>>>> e8d66b3b84f40096832326681a03a374576f6ef9
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

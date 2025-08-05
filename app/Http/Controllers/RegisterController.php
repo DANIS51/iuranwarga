@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
-    //
-    public function show(){
+    public function show()
+    {
         return view('register');
     }
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users',
@@ -33,7 +36,11 @@ class RegisterController extends Controller
             'address' => $request->address,
             'level' => $request->level,
         ]);
- 
-        return redirect('/dashboard')->with('success', 'Registrasi berhasil!');
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect()->route('dashboard')->with('success', 'Registrasi berhasil! Selamat datang ' . $user->name);
     }
 }

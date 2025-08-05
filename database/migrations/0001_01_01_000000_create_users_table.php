@@ -15,19 +15,21 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('username')->unique();
+            $table->string('email')->unique();
             $table->string('password');
-            $table->integer('nohp');
-            $table->string('addres');
+            $table->string('nohp')->nullable();
+            $table->string('address')->nullable();
             $table->enum('level', ['admin','warga'])->default('warga');
             $table->rememberToken();
             $table->timestamps();
         });
     }
 
-
-        public function down()
-        {
-            Schema::dropIfExists('users');
-        }
-
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('users');
+    }
 };
