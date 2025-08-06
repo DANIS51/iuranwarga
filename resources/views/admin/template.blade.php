@@ -46,7 +46,8 @@
   @include('navbar')
 
 
- 
+    <header class="bg-dark text-white text-center py-3">
+        <h1>My CD danis maulid</h1>
 
   @yield('content')
  <footer class=" text-center text-white">
