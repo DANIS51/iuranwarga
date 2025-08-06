@@ -43,11 +43,15 @@
 </head>
 <body>
 
-  @include('navbar')
+  @include('admin.navbar-admin')
 
 
+
+<<<<<<< HEAD:resources/views/admin/template.blade.php
     <header class="bg-dark text-white text-center py-3">
         <h1>My CD danis maulid</h1>
+=======
+>>>>>>> acc9a0344182e5eca01473639915915b23975d95:resources/views/admin/template-admin.blade.php
 
   @yield('content')
  <footer class=" text-center text-white">
