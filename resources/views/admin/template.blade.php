@@ -45,15 +45,6 @@
 
   @include('admin.navbar-admin')
 
-
-
-    <div class="container">
-      <h1>Welcome to Our Community</h1>
-      <p>Join us in making a difference in our neighborhood.</p>
-      <img src="https://i.pinimg.com/736x/19/ef/da/19efda2ce4d5433bdd5e3088eb6d8084.jpg" alt="Community Image" class="hero-img">
-    </div>
-  </div>
-  
   @yield('content')
  <footer class=" text-center text-white">
         <p>&copy; 2025 My CD danis maulid</p>

@@ -1,76 +1,107 @@
 @extends('template')
 @section('title', 'Login - Iuran Warga')
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-md-6 col-lg-4">
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white text-center">
-                <h4 class="mb-0"><i class="fas fa-sign-in-alt"></i> Login</h4>
+
+<!-- Simple Login Styling -->
+<style>
+    .login-card {
+        max-width: 400px;
+        margin: auto;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    .input-group-text {
+        background-color: #f8f9fa;
+        border-right: 0;
+    }
+
+    .form-control {
+        border-left: 0;
+    }
+
+    .input-group .input-group-text:first-child {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+
+    .input-group .form-control:last-child {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    .btn-primary {
+        border-radius: 8px;
+    }
+
+    .invalid-feedback {
+        display: block;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="login-card bg-white">
+        <h4 class="text-center mb-4 text-primary">
+            <i class="fas fa-sign-in-alt"></i> Login
+        </h4>
+
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="email"
+                           id="email"
+                           name="email"
+                           class="form-control @error('email') is-invalid @enderror"
+                           placeholder="Masukkan email"
+                           value="{{ old('email') }}"
+                           required
+                           autofocus>
+                </div>
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
-            <div class="card-body">
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="fas fa-envelope"></i>
-                            </span>
-                            <input type="email"
-                                   class="form-control @error('email') is-invalid @enderror"
-                                   id="email"
-                                   name="email"
-                                   value="{{ old('email') }}"
-                                   placeholder="masukkan email anda"
-                                   required
-                                   autofocus>
-                            @error('email')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="fas fa-lock"></i>
-                            </span>
-                            <input type="password"
-                                   class="form-control @error('password') is-invalid @enderror"
-                                   id="password"
-                                   name="password"
-                                   placeholder="masukkan password anda"
-                                   required>
-                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            @error('password')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-
-                     
-
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-sign-in-alt"></i> Login
-                        </button>
-                    </div>
-
-
-                </form>
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           class="form-control @error('password') is-invalid @enderror"
+                           placeholder="Masukkan password"
+                           required>
+                </div>
+                @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
-        </div>
+
+            <!-- Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
+<!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
 @endsection
