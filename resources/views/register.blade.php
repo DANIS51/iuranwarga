@@ -1,4 +1,4 @@
-@extends('admin.template-admin')
+@extends('admin.template')
 @section('title', 'Register - Iuran Warga')
 @section('content')
 <div class="row justify-content-center">

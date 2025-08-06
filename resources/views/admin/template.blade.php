@@ -47,12 +47,13 @@
 
 
 
-<<<<<<< HEAD:resources/views/admin/template.blade.php
-    <header class="bg-dark text-white text-center py-3">
-        <h1>My CD danis maulid</h1>
-=======
->>>>>>> acc9a0344182e5eca01473639915915b23975d95:resources/views/admin/template-admin.blade.php
-
+    <div class="container">
+      <h1>Welcome to Our Community</h1>
+      <p>Join us in making a difference in our neighborhood.</p>
+      <img src="https://i.pinimg.com/736x/19/ef/da/19efda2ce4d5433bdd5e3088eb6d8084.jpg" alt="Community Image" class="hero-img">
+    </div>
+  </div>
+  
   @yield('content')
  <footer class=" text-center text-white">
         <p>&copy; 2025 My CD danis maulid</p>
