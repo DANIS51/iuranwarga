@@ -58,7 +58,7 @@
     <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
       <ul class="navbar-nav mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('register') }}">Dashboard</a>
+          <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="">Daftar Warga</a>
