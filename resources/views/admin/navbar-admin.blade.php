@@ -61,7 +61,7 @@
           <a class="nav-link" href="{{ route('register') }}">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">Daftar Warga</a>
+          <a class="nav-link" href="{{ route('admin.users') }}">Daftar Warga</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('register') }}">Officer</a>

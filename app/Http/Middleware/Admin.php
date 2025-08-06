@@ -21,7 +21,7 @@ class Admin
             if (Auth::user()->level == "admin") {
                 return $next($request);
             }
-            return redirect(route("dasboard"));
+            return redirect(route("dashboard"));
         }
         return redirect(route('login'));
     }

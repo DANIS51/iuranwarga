@@ -32,7 +32,12 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-    Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
+
+    // Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
+    Route::get('/officers', [AdminController::class, 'officers'])->name('admin.officers');
+    Route::get('/categories', [AdminController::class, 'categories'])->name('admin.categories');
+    Route::get('/members', [AdminController::class, 'members'])->name('admin.members');
+    Route::get('/payments', [AdminController::class, 'payments']);
 });
 
 
