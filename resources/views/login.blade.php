@@ -56,12 +56,7 @@
                         </div>
                     </div>
 
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                        <label class="form-check-label" for="remember">
-                            Ingat saya
-                        </label>
-                    </div>
+                     
 
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">
@@ -69,15 +64,7 @@
                         </button>
                     </div>
 
-                    <div class="text-center mt-3">
-                        <p class="mb-2">
-                            Belum punya akun?
-                            <a href="{{ route('register') }}" class="text-decoration-none">Daftar disini</a>
-                        </p>
-                        <a href="#" class="text-decoration-none">
-                            Lupa password?
-                        </a>
-                    </div>
+
                 </form>
             </div>
         </div>
@@ -85,5 +72,5 @@
 </div>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
- 
+
 @endsection
