@@ -1,4 +1,4 @@
-@extends('template')
+@extends('admin.template-admin')
 @section('title', 'Register - Iuran Warga')
 @section('content')
 <div class="row justify-content-center">
@@ -151,7 +151,7 @@
                         </div>
                     </div>
 
-                     
+
 
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success">

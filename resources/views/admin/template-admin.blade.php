@@ -43,10 +43,10 @@
 </head>
 <body>
 
-  @include('navbar')
+  @include('admin.navbar-admin')
 
 
- 
+
 
   @yield('content')
  <footer class=" text-center text-white">
