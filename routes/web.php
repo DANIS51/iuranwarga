@@ -32,12 +32,22 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+<<<<<<< HEAD
 
     // Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
     Route::get('/officers', [AdminController::class, 'officers'])->name('admin.officers');
     Route::get('/categories', [AdminController::class, 'categories'])->name('admin.categories');
     Route::get('/members', [AdminController::class, 'members'])->name('admin.members');
     Route::get('/payments', [AdminController::class, 'payments']);
+=======
+    Route::get('/dues', [AdminController::class, 'dues'])->name('admin.dues');
+    Route::get('/payments', [AdminController::class, 'payments'])->name('admin.payments');
+    Route::get('/reports', [AdminController::class, 'reports'])->name('admin.reports');
+    Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
+
+    // API endpoints for dashboard data
+    Route::get('/dashboard/data', [AdminController::class, 'getDashboardData'])->name('admin.dashboard.data');
+>>>>>>> 52bc3b071b09f9e0b51485d7935d7a02bc83c482
 });
 
 
