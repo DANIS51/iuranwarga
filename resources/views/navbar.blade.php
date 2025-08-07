@@ -39,8 +39,8 @@
         <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
       </ul>
-      <a href="#" class="btn btn-outline-light rounded-pill fw-bold me-1">Sign In</a>
-      <a href="#" class="btn btn-light rounded-pill fw-bold me-5 ms-3">Log In</a>
+
+      <a href="{{ route('login') }}"  class="btn btn-light rounded-pill fw-bold me-5 ms-3">Masuk</a>
     </div>
   </div>
 </nav>

@@ -1,4 +1,4 @@
-@extends('template')
+@extends('admin.template')
 @section('title', 'Register - Iuran Warga')
 @section('content')
 <div class="row justify-content-center">
@@ -151,22 +151,7 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="level" class="form-label">Level</label>
-                        <select class="form-select @error('level') is-invalid @enderror"
-                                id="level"
-                                name="level"
-                                required>
-                            <option value="">Pilih Level</option>
-                            <option value="warga" {{ old('level') == 'warga' ? 'selected' : '' }}>Warga</option>
-                            <option value="admin" {{ old('level') == 'admin' ? 'selected' : '' }}>Admin</option>
-                        </select>
-                        @error('level')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
+
 
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success">
