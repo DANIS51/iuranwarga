@@ -1,37 +1,78 @@
 <style>
-    .navbar {
-        background-color: #1e2140;
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
     }
 
-    .navbar-brand img {
-        border-radius: 50%;
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
     }
 
-    .nav-link:hover {
-        color: #f0f0f0 !important;
+    main {
+        flex: 1;
     }
 
-    .btn-light {
-        background-color: #ffffff;
-        color: #1e2140;
-    }
+  .navbar {
+    background-color: #1e2140;
+  }
 
-    .btn-light:hover {
-        background-color: #e0e0e0;
-    }
+  .navbar-brand img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+  }
+
+  .navbar-brand {
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .navbar-brand:hover {
+    color: #ddd;
+  }
+
+  .nav-link {
+    color: white !important;
+    margin-right: 1rem;
+    font-weight: 500;
+  }
+
+  .nav-link:hover {
+    color: #ccc !important;
+  }
+
+  .btn-login {
+    background-color: white;
+    color: #1e2140;
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 6px 20px;
+  }
+
+  .btn-login:hover {
+    background-color: #e0e0e0;
+    color: #1e2140;
+  }
 </style>
-<nav class="navbar navbar-expand-lg px-4">
-  <div class="container-fluid">
-    <a class="navbar-brand text-white" href="#">
 
-      <img src="https://i.pinimg.com/736x/19/ef/da/19efda2ce4d5433bdd5e3088eb6d8084.jpg" class="logo" alt="Logo" width="40" />
-        <span class="ms-2">Iuran Warga</span>
+<nav class="navbar navbar-expand-lg px-4 shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="https://i.pinimg.com/736x/19/ef/da/19efda2ce4d5433bdd5e3088eb6d8084.jpg" alt="Logo" />
+      <span class="ms-2">Iuran Warga</span>
     </a>
+
     <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link" href="#">Download</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Nitro</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Discover</a></li>
@@ -40,7 +81,7 @@
         <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
       </ul>
 
-      <a href="{{ route('login') }}"  class="btn btn-light rounded-pill fw-bold me-5 ms-3">Masuk</a>
+      <a href="{{ route('login') }}" class="btn btn-login ms-3 me-2">Masuk</a>
     </div>
   </div>
 </nav>
