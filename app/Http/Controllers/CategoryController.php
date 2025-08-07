@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function navbarCategories()
+    public function index()
     {
-        $categories = DuesCategory::where('status', 'active')->get();
-        return view('partials.navbar-categories', compact('categories'));
+        $categories = DuesCategory::all();
+        return view('categories.index', compact('categories'));
     }
 
     public function addCategory()
@@ -18,21 +18,17 @@ class CategoryController extends Controller
         return view('categories.add');
     }
 
-    public function index()
-    {
-        $categories = DuesCategory::all();
-        return view('categories.index', compact('categories'));
-    }
-
     public function storeCategory(Request $request)
     {
         $request->validate([
+            'name' => 'required|string|max:255',
             'period' => 'required|string|max:255',
             'nominal' => 'required|numeric',
             'status' => 'required|in:active,inactive'
         ]);
 
         DuesCategory::create([
+            'name' => $request->name,
             'period' => $request->period,
             'nominal' => $request->nominal,
             'status' => $request->status

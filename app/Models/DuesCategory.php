@@ -12,6 +12,7 @@ class DuesCategory extends Model
     protected $table = 'dues_categories';
 
     protected $fillable = [
+        'name',
         'period',
         'nominal',
         'status'
