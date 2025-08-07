@@ -9,6 +9,7 @@ use App\Models\DuesMember;
 use App\Models\Payment;
 use App\Models\Officer;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -123,7 +124,7 @@ class AdminController extends Controller
             $user = User::findOrFail($id);
 
             // Prevent admin from deleting themselves
-            if ($user->id == auth()->id()) {
+            if ($user->id == auth()->id) {
                 return redirect()->route('admin.user')->with('error', 'Tidak dapat menghapus akun sendiri.');
             }
 
@@ -178,40 +179,32 @@ class AdminController extends Controller
     }
 
     public function storeOfficer(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'nohp' => 'required|string|max:20',
-            'address' => 'required|string|max:500',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+{
+    $request->validate([
+        'username' => 'required|string|unique:users,username',
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|min:8|confirmed',
+        'nohp' => 'required|string|max:15',
+        'address' => 'required|string|max:255',
+        'position' => 'required|string',
+    ]);
 
-        try {
-            DB::beginTransaction();
+    // Proses simpan data ke tabel users dan officers
+    $user = User::create([
+        'name' => $request->username,
+        'username' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'nohp' => $request->nohp,
+        'address' => $request->address,
+    ]);
 
-            // Create user
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'nohp' => $request->nohp,
-                'address' => $request->address,
-                'password' => bcrypt($request->password),
-                'level' => 'petugas',
-            ]);
+    Officer::create([
+        'iduser' => $user->id,
+        'position' => $request->position,
+    ]);
 
-            // Create officer record
-            Officer::create([
-                'iduser' => $user->id,
-                'position' => $request->position ?? 'Petugas',
-            ]);
-
-            DB::commit();
-
-            return redirect()->route('admin.officers')->with('success', 'Petugas berhasil ditambahkan.');
-        } catch (\Exception $e) {
-            DB::rollback();
-            return redirect()->back()->with('error', 'Gagal menambahkan petugas: ' . $e->getMessage());
-        }
-    }
+    return redirect()->route('admin.officers')->with('success', 'Petugas berhasil ditambahkan');
+}
 }
