@@ -13,13 +13,16 @@
             <a class="nav-link" href="{{ route('register') }}">Officer</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('register') }}">Category</a>
+            <a class="nav-link" href="{{ route('categories.add') }}">Tambah Kategori</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('categories.index') }}">Daftar Kategori</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('register') }}">Members</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('register') }}">Payment</a>
+            <a class="nav-link" href="{{ route('register') }}">Pembayaran</a>
         </li>
     </ul>
 </div>
