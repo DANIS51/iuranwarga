@@ -33,6 +33,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('admin.user');
+    Route::delete('/users/{id}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
 
 
     // Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');

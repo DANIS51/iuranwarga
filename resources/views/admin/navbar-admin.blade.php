@@ -29,7 +29,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('register') }}">
+            <a class="nav-link" href="{{ route('admin.officers') }}">
                 <i class="bi bi-person-badge-fill me-2"></i> Officer
             </a>
         </li>

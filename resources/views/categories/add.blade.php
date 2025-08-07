@@ -28,6 +28,16 @@
                             <small class="text-muted">Contoh: Januari 2024, Q1 2024, Tahunan 2024</small>
                         </div>
                         <div class="mb-3">
+                            <label for="payment_type" class="form-label">Jenis Pembayaran</label>
+                            <select class="form-select" id="payment_type" name="payment_type" required>
+                                <option value="">Pilih Jenis Pembayaran</option>
+                                <option value="mingguan">Mingguan</option>
+                                <option value="bulanan">Bulanan</option>
+                                <option value="tahunan">Tahunan</option>
+                            </select>
+                            <small class="text-muted">Pilih frekuensi pembayaran untuk kategori ini</small>
+                        </div>
+                        <div class="mb-3">
                             <label for="nominal" class="form-label">Nominal</label>
                             <input type="number" class="form-control" id="nominal" name="nominal" required>
                             <small class="text-muted">Masukkan nominal dalam Rupiah</small>
@@ -38,6 +48,16 @@
                                 <option value="active">Aktif</option>
                                 <option value="inactive">Tidak Aktif</option>
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="petugas" class="form-label">Petugas</label>
+                            <select class="form-select" id="petugas" name="petugas" required>
+                                <option value="">Pilih Petugas</option>
+                                @foreach($officers as $officer)
+                                    <option value="{{ $officer->user->name }}">{{ $officer->user->name }}</option>
+                                @endforeach
+                            </select>
+                            <small class="text-muted">Pilih petugas yang bertanggung jawab</small>
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Simpan Kategori</button>

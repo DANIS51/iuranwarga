@@ -19,4 +19,9 @@ class Officer extends Model
     {
         return $this->belongsTo(User::class, 'iduser');
     }
+
+    public function duesCategories()
+    {
+        return $this->hasMany(DuesCategory::class, 'petugas', 'id');
+    }
 }

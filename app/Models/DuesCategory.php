@@ -13,13 +13,20 @@ class DuesCategory extends Model
 
     protected $fillable = [
         'name',
+        'payment_type',
         'period',
         'nominal',
-        'status'
+        'status',
+        'petugas'
     ];
 
     public function duesMembers()
     {
         return $this->hasMany(DuesMember::class, 'idduescategory');
+    }
+
+    public function officer()
+    {
+        return $this->belongsTo(Officer::class, 'petugas', 'id');
     }
 }

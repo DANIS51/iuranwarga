@@ -5,6 +5,20 @@
     <h4 class="text-white mb-4">Daftar Warga</h4>
     <a href="{{ route('register') }}" class="btn btn-primary mb-3">+ Tambah Warga</a>
 
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
     <div class="table-responsive">
         <table class="table table-dark table-hover table-bordered rounded shadow overflow-hidden">
             <thead class="table-dark text-light">
@@ -24,10 +38,10 @@
                     <td>{{ $item->nohp }}</td>
                     <td>{{ $item->address }}</td>
                     <td>
-                        <form action="" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                        <form action="{{ route('admin.users.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data warga {{ $item->name }}?')">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Hapus</button>
+                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                         </form>
                     </td>
                 </tr>

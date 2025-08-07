@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\DuesCategory;
+use App\Models\Officer;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -15,23 +17,28 @@ class CategoryController extends Controller
 
     public function addCategory()
     {
-        return view('categories.add');
+        $officers = Officer::with('user')->get();
+        return view('categories.add', compact('officers'));
     }
 
     public function storeCategory(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'payment_type' => 'required|string|max:255',
             'period' => 'required|string|max:255',
             'nominal' => 'required|numeric',
-            'status' => 'required|in:active,inactive'
+            'status' => 'required|in:active,inactive',
+            'petugas' => 'required|string|max:255'
         ]);
 
         DuesCategory::create([
             'name' => $request->name,
+            'payment_type' => $request->payment_type,
             'period' => $request->period,
             'nominal' => $request->nominal,
-            'status' => $request->status
+            'status' => $request->status,
+            'petugas' => $request->petugas
         ]);
 
         return redirect()->route('categories.index')->with('success', 'Kategori berhasil ditambahkan');

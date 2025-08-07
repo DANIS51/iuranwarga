@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\DuesCategory;
 use App\Models\DuesMember;
 use App\Models\Payment;
+use App\Models\Officer;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -116,6 +117,24 @@ class AdminController extends Controller
         return view('admin.settings');
     }
 
+    public function destroyUser($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+
+            // Prevent admin from deleting themselves
+            if ($user->id == auth()->id()) {
+                return redirect()->route('admin.user')->with('error', 'Tidak dapat menghapus akun sendiri.');
+            }
+
+            $user->delete();
+
+            return redirect()->route('admin.user')->with('success', 'Data warga berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.user')->with('error', 'Gagal menghapus data warga: ' . $e->getMessage());
+        }
+    }
+
     public function getDashboardData()
     {
         $totalUsers = User::count();
@@ -143,5 +162,13 @@ class AdminController extends Controller
             'pending_approvals' => $pendingApprovals,
             'recent_transactions' => $recentTransactions
         ]);
+    }
+
+    public function officers()
+    {
+        $officers = Officer::with('user')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('admin.officers', compact('officers'));
     }
 }

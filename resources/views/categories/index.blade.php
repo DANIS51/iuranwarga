@@ -22,8 +22,10 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Kategori</th>
+                                    <th>Jenis Pembayaran</th>
                                     <th>Periode</th>
                                     <th>Nominal</th>
+                                    <th>Petugas</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -33,6 +35,7 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $category->name }}</td>
+                                        <td>{{ ucfirst(str_replace('per', '', $category->payment_type)) }}</td>
                                         <td>{{ $category->period }}</td>
                                         <td>Rp {{ number_format($category->nominal, 0, ',', '.') }}</td>
                                         <td>
@@ -47,7 +50,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="text-center">Belum ada kategori</td>
+                                        <td colspan="8" class="text-center">Belum ada kategori</td>
                                     </tr>
                                 @endforelse
                             </tbody>
