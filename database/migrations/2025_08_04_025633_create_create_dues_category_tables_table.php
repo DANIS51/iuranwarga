@@ -14,6 +14,7 @@ return new class extends Migration
         if (!Schema::hasTable('dues_categories')){
             Schema::create('dues_categories', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable();
             $table->enum("period", ['mingguan', 'bulanan', 'tahunan']);
             $table->integer("nominal");
             $table->string('status');

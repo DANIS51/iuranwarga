@@ -192,8 +192,8 @@ class AdminController extends Controller
 
     // Proses simpan data ke tabel users dan officers
     $user = User::create([
-        'name' => $request->username,
-        'username' => $request->name,
+        'name' => $request->name,
+        'username' => $request->username,
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'nohp' => $request->nohp,
