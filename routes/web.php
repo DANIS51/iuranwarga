@@ -38,6 +38,8 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     // Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
     Route::get('/officers', [AdminController::class, 'officers'])->name('admin.officers');
+    Route::get('/officers/add', [AdminController::class, 'addOfficer'])->name('admin.officers.add');
+    Route::post('/officers/store', [AdminController::class, 'storeOfficer'])->name('admin.officers.store');
     Route::get('/categories', [AdminController::class, 'categories'])->name('admin.categories');
     Route::get('/members', [AdminController::class, 'members'])->name('admin.members');
     Route::get('/payments', [AdminController::class, 'payments']);

@@ -29,7 +29,7 @@ class CategoryController extends Controller
             'period' => 'required|string|max:255',
             'nominal' => 'required|numeric',
             'status' => 'required|in:active,inactive',
-            'petugas' => 'required|string|max:255'
+            'petugas' => 'required|exists:officers,id'
         ]);
 
         DuesCategory::create([

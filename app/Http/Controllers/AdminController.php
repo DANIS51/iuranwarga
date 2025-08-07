@@ -169,6 +169,49 @@ class AdminController extends Controller
         $officers = Officer::with('user')
             ->orderBy('created_at', 'desc')
             ->get();
-        return view('admin.officers', compact('officers'));
+        return view('admin.officers.officers', compact('officers'));
+    }
+
+    public function addOfficer()
+    {
+        return view('admin.officers.add');
+    }
+
+    public function storeOfficer(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'nohp' => 'required|string|max:20',
+            'address' => 'required|string|max:500',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            // Create user
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'nohp' => $request->nohp,
+                'address' => $request->address,
+                'password' => bcrypt($request->password),
+                'level' => 'petugas',
+            ]);
+
+            // Create officer record
+            Officer::create([
+                'iduser' => $user->id,
+                'position' => $request->position ?? 'Petugas',
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('admin.officers')->with('success', 'Petugas berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Gagal menambahkan petugas: ' . $e->getMessage());
+        }
     }
 }

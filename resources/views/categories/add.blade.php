@@ -54,7 +54,7 @@
                             <select class="form-select" id="petugas" name="petugas" required>
                                 <option value="">Pilih Petugas</option>
                                 @foreach($officers as $officer)
-                                    <option value="{{ $officer->user->name }}">{{ $officer->user->name }}</option>
+                                    <option value="{{ $officer->id }}">{{ $officer->user->name }}</option>
                                 @endforeach
                             </select>
                             <small class="text-muted">Pilih petugas yang bertanggung jawab</small>

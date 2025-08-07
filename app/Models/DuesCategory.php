@@ -27,6 +27,14 @@ class DuesCategory extends Model
 
     public function officer()
     {
-        return $this->belongsTo(Officer::class, 'petugas', 'id');
+        return $this->belongsTo(Officer::class, 'petugas');
+    }
+
+    /**
+     * Get the officer's name
+     */
+    public function getOfficerNameAttribute()
+    {
+        return $this->officer ? $this->officer->user->name : 'Tidak ada petugas';
     }
 }

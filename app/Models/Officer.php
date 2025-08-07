@@ -12,16 +12,12 @@ class Officer extends Model
     protected $table = 'officers';
 
     protected $fillable = [
-        'iduser'
+        'iduser',
+        'position'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'iduser');
-    }
-
-    public function duesCategories()
-    {
-        return $this->hasMany(DuesCategory::class, 'petugas', 'id');
     }
 }

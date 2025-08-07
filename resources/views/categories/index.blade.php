@@ -38,6 +38,7 @@
                                         <td>{{ ucfirst(str_replace('per', '', $category->payment_type)) }}</td>
                                         <td>{{ $category->period }}</td>
                                         <td>Rp {{ number_format($category->nominal, 0, ',', '.') }}</td>
+                                        <td>{{ $category->officer ? $category->officer->user->name : 'Tidak ada petugas' }}</td>
                                         <td>
                                             <span class="badge badge-{{ $category->status == 'active' ? 'success' : 'secondary' }}">
                                                 {{ ucfirst($category->status) }}
