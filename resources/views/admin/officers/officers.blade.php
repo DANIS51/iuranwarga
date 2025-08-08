@@ -14,7 +14,7 @@
                     </a>
                 </div>
                 <div class="card-body">
-<<<<<<< HEAD
+
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered">
                             <thead class="table-light">
@@ -43,38 +43,6 @@
                             </tbody>
                         </table>
                     </div>
-=======
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>No HP</th>
-                                <th>Jabatan</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($officers as $index => $officer)
-                            <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $officer->user->name ?? '-' }}</td>
-                                <td>{{ $officer->user->email ?? '-' }}</td>
-                                <td>{{ $officer->user->nohp ?? '-' }}</td>
-                                <td>{{ $officer->position ?? 'Officer' }}</td>
-                                <td>
-                                    <form action="{{ route('admin.officers.destroy', $officer->id) }}" method="POST" style="display: inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus officer ini?')">Hapus</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
->>>>>>> 65774fa (dasboard baru)
                 </div>
             </div>
         </div>

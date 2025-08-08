@@ -4,7 +4,9 @@
         margin: 0;
         padding: 0;
     }
-
+    html {
+        scroll-behavior: smooth;
+    }
     body {
         display: flex;
         flex-direction: column;
@@ -73,12 +75,12 @@
 
     <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="#">Download</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Nitro</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Discover</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Safety</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="#beranda">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#fitur">Fitur</a></li>
+        <li class="nav-item"><a class="nav-link" href="#testimoni">Testimoni</a></li>
+        <li class="nav-item"><a class="nav-link" href="#kontak">Contact</a></li>
+        {{-- <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Blog</a></li> --}}
       </ul>
 
       <a href="{{ route('login') }}" class="btn btn-login ms-3 me-2">Masuk</a>
