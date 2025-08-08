@@ -7,9 +7,6 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Daftar Kategori Iuran</h5>
-                    <a href="{{ route('categories.add') }}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus me-1"></i> Tambah Kategori Baru
-                    </a>
                 </div>
                 <div class="card-body">
                     @if(session('success'))
@@ -45,9 +42,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-warning me-1">
-                                                <i class="fas fa-edit">edit</i>
-                                            </a>
+                                            <a href="{{ route('categories-edit' , Crypt::encrypt($category->id)) }}" class="btn btn-sm btn-info">EDIT</a>
                                             <a href="#" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus?')">
                                                 <i class="fas fa-trash-alt">hapus</i>
                                             </a>

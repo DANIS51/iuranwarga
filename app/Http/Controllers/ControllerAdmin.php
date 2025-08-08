@@ -51,7 +51,7 @@ class ControllerAdmin extends Controller
     public function categories()
     {
         $data['categories'] = DuesCategory::orderBy('created_at', 'desc')->get();
-        return view('admin.categories', $data);
+        return view('categories.index', $data);
     }
 
     public function reports()

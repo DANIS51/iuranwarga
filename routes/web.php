@@ -5,6 +5,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ControllerAdmin;
+use App\Http\Controllers\ControllerCategori;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -41,6 +43,8 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/officers/add', [AdminController::class, 'addOfficer'])->name('admin.officers.add');
     Route::post('/officers/store', [AdminController::class, 'storeOfficer'])->name('admin.officers.store');
     Route::get('/categories', [AdminController::class, 'categories'])->name('admin.categories');
+    Route::get('/categories/edit/{id}', [ControllerCategori::class, 'edit'])->name('categories-edit');
+    Route::post('/categories/edit/{id}', [ControllerCategori::class, 'update'])->name('categories-update');
     Route::get('/members', [AdminController::class, 'members'])->name('admin.members');
     Route::get('/payments', [AdminController::class, 'payments']);
 
