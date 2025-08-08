@@ -173,6 +173,16 @@ class AdminController extends Controller
         return view('admin.officers.officers', compact('officers'));
     }
 
+    public function members()
+    {
+        $members = DuesMember::with(['user', 'duesCategory'])
+            ->select('dues_members.id', 'dues_members.iduser', 'dues_members.idduescategory')
+            ->orderBy('dues_members.created_at', 'desc')
+            ->get();
+
+        return view('admin.members', compact('members'));
+    }
+
     public function addOfficer()
     {
         return view('admin.officers.add');
@@ -207,4 +217,27 @@ class AdminController extends Controller
 
     return redirect()->route('admin.officers')->with('success', 'Petugas berhasil ditambahkan');
 }
+
+    public function destroyOfficer($id)
+    {
+        try {
+            $officer = Officer::findOrFail($id);
+            $user = $officer->user;
+
+            // Prevent admin from deleting themselves
+            if ($user->id == auth()->id()) {
+                return redirect()->route('admin.officers')->with('error', 'Tidak dapat menghapus akun sendiri.');
+            }
+
+            // Delete the officer record first
+            $officer->delete();
+
+            // Then delete the associated user
+            $user->delete();
+
+            return redirect()->route('admin.officers')->with('success', 'Data officer berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.officers')->with('error', 'Gagal menghapus data officer: ' . $e->getMessage());
+        }
+    }
 }

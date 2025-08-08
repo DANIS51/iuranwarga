@@ -17,8 +17,8 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <p class="text-muted mb-1">Total Warga</p>
-                            <h3 class="mb-0">150</h3>
-                            <small class="text-success"><i class="fas fa-arrow-up"></i> +12% dari bulan lalu</small>
+                            <h3 class="mb-0">{{ number_format($totalUsers) }}</h3>
+                            <small class="text-muted">Aktif</small>
                         </div>
                     </div>
                 </div>
@@ -36,8 +36,8 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <p class="text-muted mb-1">Total Iuran</p>
-                            <h3 class="mb-0">Rp 45.2jt</h3>
-                            <small class="text-success"><i class="fas fa-arrow-up"></i> +8% dari bulan lalu</small>
+                            <h3 class="mb-0">Rp {{ number_format($totalAmount, 0, ',', '.') }}</h3>
+                            <small class="text-muted">Terbayar</small>
                         </div>
                     </div>
                 </div>
@@ -54,9 +54,9 @@
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <p class="text-muted mb-1">Belum Bayar</p>
-                            <h3 class="mb-0">12</h3>
-                            <small class="text-danger"><i class="fas fa-arrow-down"></i> -5% dari bulan lalu</small>
+                            <p class="text-muted mb-1">Menunggu Konfirmasi</p>
+                            <h3 class="mb-0">{{ number_format($pendingApprovals) }}</h3>
+                            <small class="text-muted">Pembayaran</small>
                         </div>
                     </div>
                 </div>
@@ -73,9 +73,9 @@
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <p class="text-muted mb-1">Transaksi Bulan Ini</p>
-                            <h3 class="mb-0">89</h3>
-                            <small class="text-info"><i class="fas fa-arrow-up"></i> +15% dari bulan lalu</small>
+                            <p class="text-muted mb-1">Total Transaksi</p>
+                            <h3 class="mb-0">{{ number_format($totalPayments) }}</h3>
+                            <small class="text-muted">Semua waktu</small>
                         </div>
                     </div>
                 </div>
@@ -105,39 +105,27 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @forelse($recentTransactions as $index => $transaction)
                                 <tr>
-                                    <td>1</td>
-                                    <td>Budi Santoso</td>
-                                    <td>Iuran Kebersihan</td>
-                                    <td>Rp 50.000</td>
-                                    <td>06 Agustus 2025</td>
-                                    <td><span class="badge bg-success">Lunas</span></td>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $transaction->user_name }}</td>
+                                    <td>{{ $transaction->dues_category }}</td>
+                                    <td>Rp {{ number_format($transaction->nominal, 0, ',', '.') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($transaction->created_at)->format('d M Y') }}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary">Detail</button>
+                                        <span class="badge bg-{{ $transaction->status == 'approved' ? 'success' : ($transaction->status == 'pending' ? 'warning' : 'danger') }}">
+                                            {{ ucfirst($transaction->status) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" onclick="viewDetail({{ $transaction->id }})">Detail</button>
                                     </td>
                                 </tr>
+                                @empty
                                 <tr>
-                                    <td>2</td>
-                                    <td>Ani Wijaya</td>
-                                    <td>Iuran Keamanan</td>
-                                    <td>Rp 100.000</td>
-                                    <td>05 Agustus 2025</td>
-                                    <td><span class="badge bg-success">Lunas</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-primary">Detail</button>
-                                    </td>
+                                    <td colspan="7" class="text-center text-muted">Belum ada transaksi</td>
                                 </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Dedi Kurniawan</td>
-                                    <td>Iuran Sampah</td>
-                                    <td>Rp 25.000</td>
-                                    <td>04 Agustus 2025</td>
-                                    <td><span class="badge bg-warning">Pending</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-primary">Detail</button>
-                                    </td>
-                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -152,9 +140,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 @endpush
 
-@push('scripts')
-<script>
-    console.log('Dashboard loaded successfully');
-</script>
-@endpush
+
 @endsection

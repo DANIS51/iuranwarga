@@ -40,6 +40,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/officers', [AdminController::class, 'officers'])->name('admin.officers');
     Route::get('/officers/add', [AdminController::class, 'addOfficer'])->name('admin.officers.add');
     Route::post('/officers/store', [AdminController::class, 'storeOfficer'])->name('admin.officers.store');
+    Route::delete('/officers/{id}', [AdminController::class, 'destroyOfficer'])->name('admin.officers.destroy');
     Route::get('/categories', [AdminController::class, 'categories'])->name('admin.categories');
     Route::get('/members', [AdminController::class, 'members'])->name('admin.members');
     Route::get('/payments', [AdminController::class, 'payments']);
@@ -60,6 +61,7 @@ Route::prefix('categories')->group(function () {
     Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/add', [CategoryController::class, 'addCategory'])->name('categories.add');
     Route::post('/store', [CategoryController::class, 'storeCategory'])->name('categories.store');
+    Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 });
 
 

@@ -45,12 +45,21 @@
                                             </span>
                                         </td>
                                         <td>
+<<<<<<< HEAD
                                             <a href="#" class="btn btn-sm btn-warning me-1">
                                                 <i class="fas fa-edit">edit</i>
                                             </a>
                                             <a href="#" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus?')">
                                                 <i class="fas fa-trash-alt">hapus</i>
                                             </a>
+=======
+                                            <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                            <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display: inline-block;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus kategori ini?')">Hapus</button>
+                                            </form>
+>>>>>>> 65774fa (dasboard baru)
                                         </td>
                                     </tr>
                                 @empty
