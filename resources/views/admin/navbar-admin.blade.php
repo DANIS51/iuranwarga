@@ -48,12 +48,40 @@
                 <i class="bi bi-tags-fill me-2"></i> Daftar Kategori
             </a>
         </li>
-        
+
         <li class="nav-item">
             <a class="nav-link" href="{{ route('register') }}">
                 <i class="bi bi-cash-coin me-2"></i> Pembayaran
             </a>
         </li>
+
+        <li class="nav-item mt-auto">
+            <button type="button" class="nav-link border-0 bg-transparent w-100 text-start" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                <i class="bi bi-box-arrow-right me-2"></i> Logout
+            </button>
+        </li>
+
+        <!-- Logout Confirmation Modal -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah Anda yakin ingin logout?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">Ya, Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </ul>
 
 </div>
