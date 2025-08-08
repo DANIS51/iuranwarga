@@ -24,9 +24,8 @@
 </section>
 
 
-
-
 <section id="fitur" class="py-5" style="background-color: #1e2140;">
+<section class="py-5" style="background-color: #1e2140;">
   <div class="container">
     <div class="text-center mb-5" data-aos="fade-up">
       <h2 class="fw-bold text-white">Kenapa Memilih Kami?</h2>

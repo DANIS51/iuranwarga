@@ -25,7 +25,7 @@
                         <div class="mb-3">
                             <label for="period" class="form-label">Periode</label>
                             <input type="text" class="form-control" id="period" name="period" required>
-                            <small class="text-muted">Contoh: Januari 2024, Q1 2024, Tahunan 2024</small>
+                            <small class="text-muted">Contoh: 2024-2025</small>
                         </div>
                         <div class="mb-3">
                             <label for="payment_type" class="form-label">Jenis Pembayaran</label>

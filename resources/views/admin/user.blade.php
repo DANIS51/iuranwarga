@@ -43,7 +43,10 @@
                             <td>{{ $item->nohp }}</td>
                             <td>{{ $item->address }}</td>
                             <td>
-                                <form action="{{ route('admin.users.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data warga {{ $item->name }}?')">
+                                <a href="{{ route('admin.users.edit', Crypt::encrypt($item->id)) }}" class="btn btn-sm btn-warning me-1">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <form action="{{ route('admin.users.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data warga {{ $item->name }}?')" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">Hapus</button>

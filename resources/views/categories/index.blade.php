@@ -42,14 +42,21 @@
                                             </span>
                                         </td>
                                         <td>
+<<<<<<< HEAD
 
                                             <a href="{{ route('categories-edit' , Crypt::encrypt($category->id)) }}" class="btn btn-sm btn-info">EDIT</a>
+=======
+                                            <a href="{{ route('categories-edit', Crypt::encrypt($category->id)) }}" class="btn btn-sm btn-warning me-1">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+>>>>>>> 50bcb31efe20ff18b7617939bebb0d407734e343
                                             <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display: inline-block;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus kategori ini?')">Hapus</button>
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus kategori ini?')">
+                                                    <i class="fas fa-trash-alt"></i> Hapus
+                                                </button>
                                             </form>
-
                                         </td>
                                     </tr>
                                 @empty
