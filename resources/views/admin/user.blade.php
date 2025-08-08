@@ -1,8 +1,8 @@
 @extends('admin.template')
 
 @section('content')
-<div class="container">
-    <h4 class="text-white mb-4">Daftar Warga</h4>
+<div class="container-fluid px-4">
+    <h4 class="mb-4">Daftar Warga</h4>
     <a href="{{ route('register') }}" class="btn btn-primary mb-3">+ Tambah Warga</a>
 
     @if(session('success'))
@@ -19,39 +19,46 @@
         </div>
     @endif
 
-    <div class="table-responsive">
-        <table class="table table-dark table-hover table-bordered rounded shadow overflow-hidden">
-            <thead class="table-dark text-light">
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">No HP</th>
-                    <th scope="col">Alamat</th>
-                    <th scope="col">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($users as $item)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->nohp }}</td>
-                    <td>{{ $item->address }}</td>
-                    <td>
-                        <form action="{{ route('admin.users.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data warga {{ $item->name }}?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="5" class="text-center text-muted">Tidak ada data warga.</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-transparent">
+            <h5 class="mb-0">Data Warga</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>No HP</th>
+                            <th>Alamat</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($users as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->nohp }}</td>
+                            <td>{{ $item->address }}</td>
+                            <td>
+                                <form action="{{ route('admin.users.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data warga {{ $item->name }}?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">Tidak ada data warga.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
