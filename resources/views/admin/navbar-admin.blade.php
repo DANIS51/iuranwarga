@@ -29,6 +29,11 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.members') }}">
+                <i class="bi bi-person-lines-fill me-2"></i> Data Anggota Iuran
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.officers') }}">
                 <i class="bi bi-person-badge-fill me-2"></i> Officer
             </a>
@@ -43,11 +48,7 @@
                 <i class="bi bi-tags-fill me-2"></i> Daftar Kategori
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('register') }}">
-                <i class="bi bi-person-lines-fill me-2"></i> Members
-            </a>
-        </li>
+        
         <li class="nav-item">
             <a class="nav-link" href="{{ route('register') }}">
                 <i class="bi bi-cash-coin me-2"></i> Pembayaran

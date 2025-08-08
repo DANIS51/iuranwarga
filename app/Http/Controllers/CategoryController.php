@@ -43,4 +43,16 @@ class CategoryController extends Controller
 
         return redirect()->route('categories.index')->with('success', 'Kategori berhasil ditambahkan');
     }
+
+    public function destroy($id)
+    {
+        try {
+            $category = DuesCategory::findOrFail($id);
+            $category->delete();
+
+            return redirect()->route('categories.index')->with('success', 'Kategori berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->route('categories.index')->with('error', 'Gagal menghapus kategori: ' . $e->getMessage());
+        }
+    }
 }
