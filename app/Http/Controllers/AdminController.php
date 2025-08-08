@@ -136,6 +136,44 @@ class AdminController extends Controller
         }
     }
 
+    public function editUser($id)
+    {
+        try {
+            $id = decrypt($id);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'ID tidak valid');
+        }
+
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', compact('user'));
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        try {
+            $id = decrypt($id);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'ID tidak valid');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'nohp' => 'required|string|max:15',
+            'address' => 'required|string|max:255',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'nohp' => $request->nohp,
+            'address' => $request->address,
+        ]);
+
+        return redirect()->route('admin.user')->with('success', 'Data warga berhasil diperbarui');
+    }
+
     public function getDashboardData()
     {
         $totalUsers = User::count();

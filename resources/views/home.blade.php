@@ -21,7 +21,7 @@
   </div>
 </section>
 
-<!-- Feature Section -->
+
 <section class="py-5" style="background-color: #1e2140;">
   <div class="container">
     <div class="text-center mb-5" data-aos="fade-up">

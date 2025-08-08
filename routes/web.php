@@ -35,6 +35,8 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('admin.user');
+    Route::get('/users/edit/{id}', [AdminController::class, 'editUser'])->name('admin.users.edit');
+    Route::post('/users/edit/{id}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/users/{id}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
 
 

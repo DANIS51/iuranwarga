@@ -15,9 +15,9 @@ class ControllerCategori extends Controller
     public function edit(string $id)
     {
         try {
-            $id = Crypt::decryptString($id);
+            $id = Crypt::decrypt($id);
         } catch (DecryptException $e) {
-            return redirect()->back()->with('danger', $e->getMessage());
+            return redirect()->back()->with('danger', 'Invalid encrypted ID');
         }
 
         $category = DuesCategory::findOrFail($id);
@@ -27,12 +27,12 @@ class ControllerCategori extends Controller
     }
 
     public function update(Request $request, string $id)
-{
-    try {
-        $id = Crypt::decrypt($id);
-    } catch (DecryptException $e) {
-        return redirect()->back()->with('danger', $e->getMessage());
-    }
+    {
+        try {
+            $id = Crypt::decrypt($id);
+        } catch (DecryptException $e) {
+            return redirect()->back()->with('danger', 'Invalid encrypted ID');
+        }
 
     $validation = $request->validate([
         'name' => 'required|max:50|min:1',
@@ -50,10 +50,10 @@ class ControllerCategori extends Controller
         'payment_type' => $validation['payment_type'],
         'nominal' => $validation['nominal'],
         'status' => $validation['status'],
-        'petugas' => $validation['petugas'], // pastikan kolom ini memang ada di database
+        'petugas' => $validation['petugas'],
     ]);
 
-    return redirect()->route('categories')->with('success', 'Data berhasil diubah');
+    return redirect()->route('categories.index')->with('success', 'Data berhasil diubah');
 }
 
 }
