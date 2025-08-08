@@ -208,7 +208,13 @@ class AdminController extends Controller
         $officers = Officer::with('user')
             ->orderBy('created_at', 'desc')
             ->get();
-        return view('admin.officers.officers', compact('officers'));
+
+        $users = User::where('level', 'warga')
+            ->select('id', 'name', 'email', 'nohp', 'address')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.officers.officers', compact('officers', 'users'));
     }
 
     public function members()
