@@ -18,7 +18,11 @@ class Payment extends Model
         'period',
         'nominal',
         'petugas',
-        'status'
+        'status',
+        'payment_method',
+        'payment_date',
+        'notes',
+        'bukti_pembayaran'
     ];
 
     public function user()

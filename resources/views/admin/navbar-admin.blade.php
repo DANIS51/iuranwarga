@@ -50,8 +50,13 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('register') }}">
-                <i class="bi bi-cash-coin me-2"></i> Pembayaran
+            <a class="nav-link" href="{{ route('admin.payments.index') }}">
+                <i class="bi bi-cash-coin me-2"></i> Data Pembayaran
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.payments.create') }}">
+                <i class="bi bi-plus-circle me-2"></i> Tambah Pembayaran
             </a>
         </li>
 

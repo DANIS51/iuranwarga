@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ControllerAdmin;
 use App\Http\Controllers\ControllerCategori;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -49,10 +50,17 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/categories/edit/{id}', [ControllerCategori::class, 'edit'])->name('categories-edit');
     Route::post('/categories/edit/{id}', [ControllerCategori::class, 'update'])->name('categories-update');
     Route::get('/members', [AdminController::class, 'members'])->name('admin.members');
-    Route::get('/payments', [AdminController::class, 'payments']);
-
     Route::get('/dues', [AdminController::class, 'dues'])->name('admin.dues');
-    Route::get('/payments', [AdminController::class, 'payments'])->name('admin.payments');
+    Route::get('/payments', [PaymentController::class, 'index'])->name('admin.payments.index');
+    Route::get('/payments/create', [PaymentController::class, 'create'])->name('admin.payments.create');
+    Route::post('/payments', [PaymentController::class, 'store'])->name('admin.payments.store');
+    Route::get('/payments/{id}', [PaymentController::class, 'show'])->name('admin.payments.show');
+    Route::get('/payments/{id}/edit', [PaymentController::class, 'edit'])->name('admin.payments.edit');
+    Route::put('/payments/{id}', [PaymentController::class, 'update'])->name('admin.payments.update');
+    Route::delete('/payments/{id}', [PaymentController::class, 'destroy'])->name('admin.payments.destroy');
+
+    // User payment history
+    Route::get('/payments/history/{userId}', [PaymentController::class, 'userHistory'])->name('payments.history');
     Route::get('/reports', [AdminController::class, 'reports'])->name('admin.reports');
     Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
 
