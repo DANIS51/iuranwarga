@@ -20,8 +20,7 @@
             @foreach($users as $item)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->nohp }}</td>
+                    <td>{{ $item ->nohp }}</td>
                     <td>{{ $item->address }}</td>
                     <td>
                         <form action="" method="POST" onsubmit="return confirm('Yakin hapus?')">
