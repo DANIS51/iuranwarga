@@ -13,11 +13,18 @@ return new class extends Migration
     {
         Schema::create('create_payment_tables', function (Blueprint $table) {
             $table->id();
-            $table->integer("iduser");
-            $table->enum("period", ['mingguan', 'bulanan', 'tahunan']);
+            $table->unsignedBigInteger('iduser');
+            $table->unsignedBigInteger('idmember')->nullable();
+            $table->unsignedBigInteger('idduescategory')->nullable();
+            $table->enum('period', ['mingguan', 'bulanan', 'tahunan']);
             $table->integer('nominal');
             $table->string('petugas');
             $table->timestamps();
+
+            // foreign keys
+            $table->foreign('iduser')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('idmember')->references('id')->on('dues_members')->onDelete('cascade');
+            $table->foreign('idduescategory')->references('id')->on('dues_categories')->onDelete('cascade');
         });
     }
 
