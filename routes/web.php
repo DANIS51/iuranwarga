@@ -47,6 +47,8 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/categories', [AdminController::class, 'categories'])->name('admin.categories');
     Route::get('/categories/edit/{id}', [ControllerCategori::class, 'edit'])->name('categories-edit');
     Route::post('/categories/edit/{id}', [ControllerCategori::class, 'update'])->name('categories-update');
+    Route::delete('/categories/{id}', [AdminController::class, 'destroyCategory'])->name('categories.destroy');
+
 
     // Members & Payments
     Route::get('/members', [AdminController::class, 'members'])->name('admin.members');

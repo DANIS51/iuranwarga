@@ -32,21 +32,21 @@ class ControllerAdmin extends Controller
         return view('admin.user', $data);
     }
 
-    public function dues()
-    {
-        $data['dues'] = DuesMember::with(['user', 'duesCategory'])
-            ->orderBy('created_at', 'desc')
-            ->get();
-        return view('admin.dues', $data);
-    }
+    // public function dues()
+    // {
+    //     $data['dues'] = DuesMember::with(['user', 'duesCategory'])
+    //         ->orderBy('created_at', 'desc')
+    //         ->get();
+    //     return view('admin.dues', $data);
+    // }
 
-    public function payments()
-    {
-        $data['payments'] = Payment::with('user')
-            ->orderBy('created_at', 'desc')
-            ->get();
-        return view('admin.payments', $data);
-    }
+    // public function payments()
+    // {
+    //     $data['payments'] = Payment::with('user')
+    //         ->orderBy('created_at', 'desc')
+    //         ->get();
+    //     return view('admin.payments', $data);
+    // }
 
     public function categories()
     {
@@ -54,28 +54,28 @@ class ControllerAdmin extends Controller
         return view('categories.index', $data);
     }
 
-    public function reports()
-    {
-        $data['monthly_income'] = Payment::select(
-            DB::raw('MONTH(created_at) as month'),
-            DB::raw('SUM(nominal) as total')
-        )
-        ->whereYear('created_at', date('Y'))
-        ->groupBy(DB::raw('MONTH(created_at)'))
-        ->orderBy('month')
-        ->get();
+    // public function reports()
+    // {
+    //     $data['monthly_income'] = Payment::select(
+    //         DB::raw('MONTH(created_at) as month'),
+    //         DB::raw('SUM(nominal) as total')
+    //     )
+    //     ->whereYear('created_at', date('Y'))
+    //     ->groupBy(DB::raw('MONTH(created_at)'))
+    //     ->orderBy('month')
+    //     ->get();
 
-        $data['category_stats'] = Payment::select(
-            'dues_categories.period as category',
-            DB::raw('SUM(create_payment_tables.nominal) as total')
-        )
-        ->join('dues_categories', 'create_payment_tables.period', '=', 'dues_categories.period')
-        ->whereYear('create_payment_tables.created_at', date('Y'))
-        ->groupBy('dues_categories.period')
-        ->get();
+    //     $data['category_stats'] = Payment::select(
+    //         'dues_categories.period as category',
+    //         DB::raw('SUM(create_payment_tables.nominal) as total')
+    //     )
+    //     ->join('dues_categories', 'create_payment_tables.period', '=', 'dues_categories.period')
+    //     ->whereYear('create_payment_tables.created_at', date('Y'))
+    //     ->groupBy('dues_categories.period')
+    //     ->get();
 
-        return view('admin.reports', $data);
-    }
+    //     return view('admin.reports', $data);
+    // }
 
     public function officers()
     {

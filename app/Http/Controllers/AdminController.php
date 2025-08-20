@@ -21,7 +21,7 @@ class AdminController extends Controller
         $totalDues        = DuesMember::count();
         $totalPayments    = Payment::count();
         $totalAmount      = Payment::sum('nominal');
-        $pending = Payment::where('status', 'pending')->count();
+        $pendingApprovals = Payment::where('status', 'pending')->count();
 
         $recentTransactions = Payment::select(
                 'create_payment_tables.*',
@@ -40,7 +40,7 @@ class AdminController extends Controller
             'totalPayments',
             'totalAmount',
             'recentTransactions',
-            'pending'
+            'pendingApprovals'
         ));
     }
 
@@ -59,6 +59,8 @@ class AdminController extends Controller
     {
         try {
             $user = User::findOrFail($id);
+
+            // Prevent admin from deleting themselves
             if ($user->id == Auth::id()) {
                 return redirect()->route('admin.user')->with('error', 'Tidak dapat menghapus akun sendiri.');
             }
@@ -213,7 +215,6 @@ class AdminController extends Controller
         return view('admin.members', compact('members'));
     }
 
-    /** ---------------- API for Dashboard ---------------- */
     public function getDashboardData()
     {
         $totalUsers       = User::count();
@@ -242,4 +243,17 @@ class AdminController extends Controller
             'recent_transactions'=> $recentTransactions
         ]);
     }
+
+        public function destroyCategory($id)
+{
+    try {
+        $category = DuesCategory::findOrFail($id);
+
+        $category->delete();
+
+        return redirect()->route('categories.index')->with('success', 'Kategori berhasil dihapus.');
+    } catch (\Exception $e) {
+        return redirect()->route('categories.index')->with('error', 'Gagal menghapus kategori: ' . $e->getMessage());
+    }
+}
 }

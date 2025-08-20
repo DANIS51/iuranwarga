@@ -56,4 +56,7 @@ class ControllerCategori extends Controller
     return redirect()->route('categories.index')->with('success', 'Data berhasil diubah');
 }
 
+
+
+
 }
