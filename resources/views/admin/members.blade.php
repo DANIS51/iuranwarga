@@ -6,9 +6,23 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+            
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Data Anggota Iuran</h3>
+                    <div class="card-tools">
+                        <a href="{{ route('admin.members.add') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i> Tambah Anggota Iuran
+                        </a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -44,7 +58,7 @@
                                         </span>
                                     </td>
                                     <td>Rp {{ number_format($member->total_payments, 0, ',', '.') }}</td>
-                                    <td>{{ $member->created_at->format('d/m/Y H:i') }}</td>
+                                    <td>{{ $member->created_at ? $member->created_at->format('d/m/Y H:i') : 'N/A' }}</td>
                                     <td>
                                         <a href="{{ route('admin.members.payments', $member->id) }}" class="btn btn-sm btn-info">
                                             Lihat Pembayaran
@@ -65,5 +79,3 @@
     </div>
 </div>
 @endsection
-
-

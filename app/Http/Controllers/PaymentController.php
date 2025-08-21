@@ -47,7 +47,7 @@ class PaymentController extends Controller
 
         $data = $request->all();
         $data['petugas'] = auth()->user()->id;
-        $data['status'] = 'completed';
+        $data['status'] = 'paid';
 
         // Handle file upload
         if ($request->hasFile('bukti_pembayaran')) {
