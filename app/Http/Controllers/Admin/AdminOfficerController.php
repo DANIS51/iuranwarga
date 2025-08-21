@@ -59,7 +59,7 @@ class AdminOfficerController extends Controller
             'password' => Hash::make($request->password),
             'nohp'     => $request->nohp,
             'address'  => $request->address,
-            'level'    => 'petugas',
+            'level'    => 'warga',
         ]);
 
         // Create officer record

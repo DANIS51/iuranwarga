@@ -56,4 +56,20 @@ class ControllerCategori extends Controller
     return redirect()->route('categories.index')->with('success', 'Data berhasil diubah');
 }
 
+    
+public function destroy(string $id)
+{
+    try {
+        $id = Crypt::decrypt($id);
+        $category = DuesCategory::findOrFail($id);
+        $category->delete();
+        
+        return redirect()->route('categories.index')->with('success', 'Kategori berhasil dihapus');
+    } catch (DecryptException $e) {
+        return redirect()->route('categories.index')->with('error', 'Invalid encrypted ID');
+    } catch (\Exception $e) {
+        return redirect()->route('categories.index')->with('error', 'Gagal menghapus kategori: ' . $e->getMessage());
+    }
+}
+
 }
