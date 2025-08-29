@@ -53,6 +53,7 @@
                                 <i class="fas fa-clock text-warning fs-4"></i>
                             </div>
                         </div>
+                         
                         <div class="flex-grow-1 ms-3">
                             <p class="text-muted mb-1">Menunggu Konfirmasi</p>
                             <h3 class="mb-0">{{ number_format($pendingApprovals) }}</h3>
@@ -134,8 +135,6 @@
         </div>
     </div>
 </div>
-
-<!-- Add Font Awesome for icons -->
 @push('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 @endpush

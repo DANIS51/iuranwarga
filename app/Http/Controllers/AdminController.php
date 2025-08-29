@@ -4,17 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\DuesCategory;
 use App\Models\DuesMember;
 use App\Models\Payment;
-use App\Models\Officer;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    /** ---------------- Dashboard ---------------- */
+    // Controller ini sekarang hanya untuk fitur yang belum dipisahkan
+    // seperti categories management
+
     public function dashboard()
     {
         $totalUsers       = User::count();
@@ -221,6 +219,7 @@ class AdminController extends Controller
         $totalDues        = DuesMember::count();
         $totalPayments    = Payment::count();
         $totalAmount      = Payment::sum('nominal');
+
         $pendingApprovals = Payment::where('status', 'pending')->count();
 
         $recentTransactions = Payment::select(
@@ -229,19 +228,25 @@ class AdminController extends Controller
                 'dues_categories.period as dues_category'
             )
             ->join('users', 'create_payment_tables.iduser', '=', 'users.id')
-            ->join('dues_categories', 'create_payment_tables.period', '=', 'dues_categories.period')
+            ->join('dues_categories', 'create_payment_tables.idduescategory', '=', 'dues_categories.id')
             ->orderBy('create_payment_tables.created_at', 'desc')
             ->limit(5)
             ->get();
 
-        return response()->json([
-            'total_users'        => $totalUsers,
-            'total_dues'         => $totalDues,
-            'total_payments'     => $totalPayments,
-            'total_amount'       => $totalAmount,
-            'pending_approvals'  => $pendingApprovals,
-            'recent_transactions'=> $recentTransactions
-        ]);
+        return view('admin.dashboard', compact(
+            'totalUsers',
+            'totalDues',
+            'totalPayments',
+            'totalAmount',
+            'recentTransactions',
+            'pendingApprovals'
+        ));
+    }
+
+    public function categories()
+    {
+        // Method ini masih digunakan untuk categories
+        return view('admin.categories');
     }
 
         public function destroyCategory($id)
