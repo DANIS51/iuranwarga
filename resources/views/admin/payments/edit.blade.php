@@ -60,7 +60,8 @@
                             <label for="status">Status</label>
                             <select name="status" id="status" class="form-control">
                                 <option value="pending" {{ $payment->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="completed" {{ $payment->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                <option value="paid" {{ $payment->status == 'paid' ? 'selected' : '' }}>Completed</option>
+                                <option value="cancelled" {{ $payment->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                             </select>
                         </div>
 

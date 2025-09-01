@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DuesCategory;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\DuesMember;
+use App\Models\Officer;
 use App\Models\Payment;
+use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {

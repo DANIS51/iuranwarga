@@ -66,7 +66,7 @@ class PaymentController extends Controller
     public function show($id)
     {
         $payment = Payment::with(['user', 'member', 'duesCategory', 'officer'])->findOrFail($id);
-        return view('admin.payments.show', compact('payment'));
+        return view('admin.payments.lihat', compact('payment'));
     }
 
     public function edit($id)
@@ -88,7 +88,7 @@ class PaymentController extends Controller
     'nominal' => 'required|numeric|min:0',
     'payment_method' => 'required|in:cash,transfer,ewallet',
     'payment_date' => 'required|date',
-    'status' => 'required|in:pending,completed',
+    'status' => 'required|in:pending,paid,cancelled',
     'notes' => 'nullable|string|max:500',
     'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
     ]);
