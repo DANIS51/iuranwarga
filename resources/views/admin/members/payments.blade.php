@@ -8,14 +8,20 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Pembayaran Anggota: {{ $member->user->name }}</h3>
+                    <h3 class="card-title">Pembayaran Anggota: {{ $member->user ? $member->user->name : 'Unknown Member' }}</h3>
                     <div class="card-tools">
                         <a href="{{ route('admin.members') }}" class="btn btn-secondary btn-sm">
                             <i class="fas fa-arrow-left"></i> Kembali
                         </a>
-                        <a href="{{ route('admin.payments.create') }}?member={{ $member->id }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Tambah Pembayaran
-                        </a>
+                        @if($member->payment_status != 'Lunas')
+                            <a href="{{ route('admin.payments.create') }}?member={{ $member->id }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Tambah Pembayaran
+                            </a>
+                        @else
+                            <button class="btn btn-secondary btn-sm" disabled>
+                                <i class="fas fa-check"></i> Pembayaran Lunas
+                            </button>
+                        @endif
                     </div>
                 </div>
                 <div class="card-body">
@@ -25,19 +31,19 @@
                             <table class="table table-borderless">
                                 <tr>
                                     <td><strong>Nama:</strong></td>
-                                    <td>{{ $member->user->name }}</td>
+                                    <td>{{ $member->user ? $member->user->name : 'Unknown Member' }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Email:</strong></td>
-                                    <td>{{ $member->user->email }}</td>
+                                    <td>{{ $member->user ? $member->user->email : 'No Email' }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Kategori Iuran:</strong></td>
-                                    <td>{{ $member->duesCategory->name ?? 'N/A' }}</td>
+                                    <td>{{ $member->duesCategory ? $member->duesCategory->name : 'N/A' }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Nominal:</strong></td>
-                                    <td>Rp {{ number_format($member->duesCategory->nominal ?? 0, 0, ',', '.') }}</td>
+                                    <td>Rp {{ number_format($member->duesCategory ? $member->duesCategory->nominal : 0, 0, ',', '.') }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -60,6 +66,16 @@
                                             ($member->payment_status == 'Sebagian' ? 'bg-warning' : 'bg-danger') }}">
                                             {{ $member->payment_status }}
                                         </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Pesan Pembayaran:</strong></td>
+                                    <td>
+                                        @if($member->payment_message)
+                                            <div class="alert alert-info p-2 m-0">
+                                                {{ $member->payment_message }}
+                                            </div>
+                                        @endif
                                     </td>
                                 </tr>
                             </table>
@@ -87,10 +103,10 @@
                                 <tr>
                                     <td>{{ $payment->id }}</td>
                                     <td>{{ $payment->payment_date ? \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') : 'N/A' }}</td>
-                                    <td>{{ $payment->duesCategory->name ?? 'N/A' }}</td>
+                                    <td>{{ $payment->duesCategory ? $payment->duesCategory->name : 'N/A' }}</td>
                                     <td>Rp {{ number_format($payment->nominal, 0, ',', '.') }}</td>
                                     <td>{{ ucfirst($payment->payment_method) }}</td>
-                                    <td>{{ $payment->officer->officer_name ?? 'N/A' }}</td>
+                                    <td>{{ $payment->officer ? $payment->officer->officer_name : 'N/A' }}</td>
                                     <td>
                                         <span class="badge {{ $payment->status == 'completed' ? 'bg-success' : 'bg-warning' }}">
                                             {{ ucfirst($payment->status) }}

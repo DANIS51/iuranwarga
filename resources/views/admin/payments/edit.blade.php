@@ -18,7 +18,7 @@
                             <select name="iduser" id="iduser" class="form-control" required>
                                 @foreach($users as $user)
                                     <option value="{{ $user->id }}" {{ $payment->iduser == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }}
+                                        {{ $user->name ?? 'Unknown User' }}
                                     </option>
                                 @endforeach
                             </select>
@@ -29,7 +29,7 @@
                             <select name="idduescategory" id="idduescategory" class="form-control" required>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ $payment->idduescategory == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
+                                        {{ $category->name ?? 'Unknown Category' }}
                                     </option>
                                 @endforeach
                             </select>

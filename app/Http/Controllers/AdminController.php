@@ -68,6 +68,12 @@ class AdminController extends Controller
                 return redirect()->route('admin.user')->with('error', 'Tidak dapat menghapus akun sendiri.');
             }
 
+            // Check if user has dues member records
+            $hasDuesMembers = DuesMember::where('iduser', $id)->exists();
+            if ($hasDuesMembers) {
+                return redirect()->route('admin.user')->with('error', 'Tidak dapat menghapus warga yang masih memiliki data anggota iuran. Hapus data anggota iuran terlebih dahulu.');
+            }
+
             $user->delete();
 
             return redirect()->route('admin.user')->with('success', 'Data warga berhasil dihapus.');

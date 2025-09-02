@@ -13,7 +13,8 @@ class DuesMember extends Model
 
     protected $fillable = [
         'iduser',
-        'idduescategory'
+        'idduescategory',
+        'status'
     ];
 
     public function user()
@@ -60,15 +61,28 @@ class DuesMember extends Model
 
     public function getPaymentStatusAttribute()
     {
-        $totalPaid = $this->total_payments;
-        $expectedAmount = $this->duesCategory ? $this->duesCategory->nominal : 0;
+        // Use the persistent status field instead of computed
+        switch ($this->status) {
+            case 'lunas':
+                return 'Lunas';
+            case 'sebagian':
+                return 'Sebagian';
+            case 'belum_bayar':
+            default:
+                return 'Belum Bayar';
+        }
+    }
 
-        if ($totalPaid >= $expectedAmount) {
-            return 'Lunas';
-        } elseif ($totalPaid > 0) {
-            return 'Sebagian';
-        } else {
-            return 'Belum Bayar';
+    public function getPaymentMessageAttribute()
+    {
+        switch ($this->status) {
+            case 'lunas':
+                return 'Bayaran anda sudah lunas!!';
+            case 'sebagian':
+                return 'Pembayaran sebagian telah diterima.';
+            case 'belum_bayar':
+            default:
+                return 'Belum ada pembayaran.';
         }
     }
 }

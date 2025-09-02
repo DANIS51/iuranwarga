@@ -15,11 +15,11 @@
                     <table class="table table-bordered">
                         <tr>
                             <th>Nama Warga</th>
-                            <td>{{ $payment->user->name ?? 'N/A' }}</td>
+                            <td>{{ $payment->user ? $payment->user->name : 'N/A' }}</td>
                         </tr>
                         <tr>
                             <th>Kategori Iuran</th>
-                            <td>{{ $payment->duesCategory->name ?? 'N/A' }}</td>
+                            <td>{{ $payment->duesCategory ? $payment->duesCategory->name : 'N/A' }}</td>
                         </tr>
                         <tr>
                             <th>Nominal</th>
@@ -39,7 +39,7 @@
                         </tr>
                         <tr>
                             <th>Petugas</th>
-                            <td>{{ $payment->officer->user->name ?? 'N/A' }}</td>
+                            <td>{{ $payment->officer && $payment->officer->user ? $payment->officer->user->name : 'N/A' }}</td>
                         </tr>
                     </table>
                 </div>

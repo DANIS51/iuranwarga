@@ -15,7 +15,7 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        $payments = Payment::with(['user', 'member', 'duesCategory', 'officer'])
+        $payments = Payment::with(['user', 'member.user', 'member.duesCategory', 'duesCategory', 'officer.user'])
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -28,6 +28,19 @@ class PaymentController extends Controller
         $members = DuesMember::with(['user', 'duesCategory'])->get();
         $categories = DuesCategory::all();
         $officers = Officer::with('user')->get();
+
+        // Check if member is fully paid if member id is passed as query param
+        $memberId = request()->query('member');
+        if ($memberId) {
+            $member = DuesMember::with(['duesCategory', 'user'])->find($memberId);
+            if ($member) {
+                $totalPaid = $member->total_payments;
+                $expectedAmount = $member->duesCategory ? $member->duesCategory->nominal : 0;
+                if ($totalPaid >= $expectedAmount) {
+                    return redirect()->route('admin.members')->with('error', 'Pembayaran sudah lunas, tidak bisa menambah pembayaran lagi.');
+                }
+            }
+        }
 
         return view('admin.payments.create', compact('users', 'members', 'categories', 'officers'));
     }
@@ -44,6 +57,16 @@ class PaymentController extends Controller
             'notes' => 'nullable|string|max:500',
             'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
+
+        // Check if member is fully paid before creating payment
+        $member = DuesMember::with(['duesCategory', 'user'])->find($request->idmember);
+        if ($member) {
+            $totalPaid = $member->total_payments;
+            $expectedAmount = $member->duesCategory ? $member->duesCategory->nominal : 0;
+            if ($totalPaid >= $expectedAmount) {
+                return redirect()->route('admin.payments.index')->with('error', 'Pembayaran sudah lunas, tidak bisa menambah pembayaran lagi.');
+            }
+        }
 
         $data = $request->all();
         $data['petugas'] = auth()->user()->id;
@@ -65,8 +88,8 @@ class PaymentController extends Controller
 
     public function show($id)
     {
-        $payment = Payment::with(['user', 'member', 'duesCategory', 'officer'])->findOrFail($id);
-        return view('admin.payments.lihat', compact('payment'));
+        $payment = Payment::with(['user', 'member.user', 'member.duesCategory', 'duesCategory', 'officer.user'])->findOrFail($id);
+        return view('admin.payments.show', compact('payment'));
     }
 
     public function edit($id)

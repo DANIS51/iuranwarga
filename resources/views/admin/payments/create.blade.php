@@ -42,7 +42,7 @@
                                         <option value="">Pilih Anggota</option>
                                         @foreach($members as $member)
                                             <option value="{{ $member->id }}" {{ old('idmember') == $member->id ? 'selected' : '' }}>
-                                                {{ $member->user->name }} - {{ $member->duesCategory->name }}
+                                                {{ $member->user ? $member->user->name : 'Unknown User' }} - {{ $member->duesCategory ? $member->duesCategory->name : 'Unknown Category' }}
                                             </option>
                                         @endforeach
                                     </select>
