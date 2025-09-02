@@ -11,14 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-<<<<<<< HEAD:database/migrations/2025_08_21_000000_add_missing_columns_to_create_payment_tables.php
-        Schema::table('create_payment_tables', function (Blueprint $table) {
-            $table->string('payment_method')->nullable()->after('nominal');
-            $table->date('payment_date')->nullable()->after('payment_method');
-            $table->text('notes')->nullable()->after('payment_date');
-            $table->string('bukti_pembayaran')->nullable()->after('notes');
-            $table->string('status')->default('pending')->after('bukti_pembayaran');
-=======
         Schema::table('payments', function (Blueprint $table) {
             // Cek dan tambahkan kolom jika belum ada
             if (!Schema::hasColumn('payments', 'payment_method')) {
@@ -53,7 +45,6 @@ return new class extends Migration
             if (!Schema::hasColumn('payments', 'idduescategory')) {
                 $table->foreign('idduescategory')->references('id')->on('dues_categories')->onDelete('cascade');
             }
->>>>>>> 9dd0864 (pembaruan):database/migrations/2025_08_09_000000_add_columns_to_payments_table.php
         });
     }
 
@@ -62,10 +53,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-<<<<<<< HEAD:database/migrations/2025_08_21_000000_add_missing_columns_to_create_payment_tables.php
-        Schema::table('create_payment_tables', function (Blueprint $table) {
-            $table->dropColumn(['payment_method', 'payment_date', 'notes', 'bukti_pembayaran', 'status']);
-=======
         Schema::table('payments', function (Blueprint $table) {
             // Hapus kolom jika ada
             if (Schema::hasColumn('payments', 'payment_method')) {
@@ -92,7 +79,6 @@ return new class extends Migration
             $table->dropForeign(['iduser']);
             $table->dropForeign(['idmember']);
             $table->dropForeign(['idduescategory']);
->>>>>>> 9dd0864 (pembaruan):database/migrations/2025_08_09_000000_add_columns_to_payments_table.php
         });
     }
 };

@@ -22,13 +22,13 @@ class AdminController extends Controller
         $pendingApprovals = Payment::where('status', 'pending')->count();
 
         $recentTransactions = Payment::select(
-                'create_payment_tables.*',
+                'payments.*',
                 'users.name as user_name',
                 'dues_categories.period as dues_category'
             )
-            ->join('users', 'create_payment_tables.iduser', '=', 'users.id')
-            ->join('dues_categories', 'create_payment_tables.period', '=', 'dues_categories.period')
-            ->orderBy('create_payment_tables.created_at', 'desc')
+            ->join('users', 'payments.iduser', '=', 'users.id')
+            ->join('dues_categories', 'payments.period', '=', 'dues_categories.period')
+            ->orderBy('payments.created_at', 'desc')
             ->limit(5)
             ->get();
 
@@ -121,7 +121,7 @@ class AdminController extends Controller
             )
             ->join('users', 'dues_members.iduser', '=', 'users.id')
             ->join('dues_categories', 'dues_members.idduescategory', '=', 'dues_categories.id')
-            ->leftJoin('create_payment_tables as payments', function ($join) {
+            ->leftJoin('payments', function ($join) {
                 $join->on('dues_members.iduser', '=', 'payments.iduser')
                     ->on('dues_categories.period', '=', 'payments.period');
             })

@@ -9,7 +9,7 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $table = 'create_payment_tables';
+    protected $table = 'payments';
 
     protected $fillable = [
         'iduser',

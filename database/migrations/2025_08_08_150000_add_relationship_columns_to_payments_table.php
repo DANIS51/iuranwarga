@@ -12,11 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->unsignedBigInteger('idduescategory')->nullable()->after('iduser');
-            $table->foreign('idduescategory')->references('id')->on('dues_categories')->onDelete('cascade');
+            if (!Schema::hasColumn('payments', 'idduescategory')) {
+                $table->unsignedBigInteger('idduescategory')->nullable()->after('iduser');
+                $table->foreign('idduescategory')->references('id')->on('dues_categories')->onDelete('cascade');
+            }
 
-            $table->unsignedBigInteger('idmember')->nullable()->after('iduser');
-            $table->foreign('idmember')->references('id')->on('dues_members')->onDelete('cascade');
+            if (!Schema::hasColumn('payments', 'idmember')) {
+                $table->unsignedBigInteger('idmember')->nullable()->after('iduser');
+                $table->foreign('idmember')->references('id')->on('dues_members')->onDelete('cascade');
+            }
         });
     }
 
@@ -26,10 +30,14 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->dropForeign(['idduescategory']);
-            $table->dropColumn('idduescategory');
-            $table->dropForeign(['idmember']);
-            $table->dropColumn('idmember');
+            if (Schema::hasColumn('payments', 'idduescategory')) {
+                $table->dropForeign(['idduescategory']);
+                $table->dropColumn('idduescategory');
+            }
+            if (Schema::hasColumn('payments', 'idmember')) {
+                $table->dropForeign(['idmember']);
+                $table->dropColumn('idmember');
+            }
         });
     }
 };
