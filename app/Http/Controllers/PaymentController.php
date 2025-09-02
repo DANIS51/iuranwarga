@@ -47,7 +47,7 @@ class PaymentController extends Controller
 
         $data = $request->all();
         $data['petugas'] = auth()->user()->id;
-        $data['status'] = 'paid';
+        $data['status'] = 'completed';
 
         // Handle file upload
         if ($request->hasFile('bukti_pembayaran')) {
@@ -83,12 +83,12 @@ class PaymentController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-    'user_id' => 'required|exists:users,id',
-    'dues_category_id' => 'required|exists:dues_categories,id',
+    'iduser' => 'required|exists:users,id',
+    'idduescategory' => 'required|exists:dues_categories,id',
     'nominal' => 'required|numeric|min:0',
-    'payment_method' => 'required|in:cash,transfer,ewallet',
+    'payment_method' => 'required|in:cash,transfer,qris',
     'payment_date' => 'required|date',
-    'status' => 'required|in:pending,paid,cancelled',
+    'status' => 'required|in:pending,completed,cancelled',
     'notes' => 'nullable|string|max:500',
     'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
     ]);

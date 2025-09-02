@@ -14,10 +14,10 @@
                         @method('PUT')
 
                         <div class="form-group">
-                            <label for="user_id">Nama Warga</label>
-                            <select name="user_id" id="user_id" class="form-control" required>
+                            <label for="iduser">Nama Warga</label>
+                            <select name="iduser" id="iduser" class="form-control" required>
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}" {{ $payment->user_id == $user->id ? 'selected' : '' }}>
+                                    <option value="{{ $user->id }}" {{ $payment->iduser == $user->id ? 'selected' : '' }}>
                                         {{ $user->name }}
                                     </option>
                                 @endforeach
@@ -25,10 +25,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="dues_category_id">Kategori Iuran</label>
-                            <select name="dues_category_id" id="dues_category_id" class="form-control" required>
+                            <label for="idduescategory">Kategori Iuran</label>
+                            <select name="idduescategory" id="idduescategory" class="form-control" required>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ $payment->dues_category_id == $category->id ? 'selected' : '' }}>
+                                    <option value="{{ $category->id }}" {{ $payment->idduescategory == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
@@ -60,7 +60,7 @@
                             <label for="status">Status</label>
                             <select name="status" id="status" class="form-control">
                                 <option value="pending" {{ $payment->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="paid" {{ $payment->status == 'paid' ? 'selected' : '' }}>Completed</option>
+                                <option value="completed" {{ $payment->status == 'completed' ? 'selected' : '' }}>Completed</option>
                                 <option value="cancelled" {{ $payment->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                             </select>
                         </div>
