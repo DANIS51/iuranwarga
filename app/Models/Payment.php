@@ -56,4 +56,9 @@ class Payment extends Model
             'period' => $this->period
         ];
     }
+    public function duesMembers()
+    {
+        return $this->hasMany(DuesMember::class, 'idpayment');
+    }
+
 }

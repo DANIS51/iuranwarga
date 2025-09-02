@@ -12,6 +12,7 @@
                     </a>
                 </div>
                 <div class="card-body">
+                    {{-- Detail Utama --}}
                     <table class="table table-bordered">
                         <tr>
                             <th>Nama Warga</th>
@@ -42,6 +43,41 @@
                             <td>{{ $payment->officer && $payment->officer->user ? $payment->officer->user->name : 'N/A' }}</td>
                         </tr>
                     </table>
+
+                    {{-- Rincian Bulanan --}}
+                    <h5 class="mt-4">Rincian Bulanan</h5>
+                    <tr>
+                        <th>Jumlah Bulan Terbayar : </th>
+                        <td>{{ $jumlahBulan }} Bulan</td>
+                    </tr>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Bulan</th>
+                                <th>Status</th>
+                                <th>Tanggal Bayar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($payment->duesMembers as $dm)
+                                <tr>
+                                    <td>{{ $dm->bulan }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ $dm->status == 'paid' ? 'success' : 'warning' }}">
+                                            {{ ucfirst($dm->status) }}
+                                        </span>
+                                    </td>
+                                    <td>{{ $dm->tanggal_bayar ? \Carbon\Carbon::parse($dm->tanggal_bayar)->format('d/m/Y') : '-' }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3" class="text-center">Belum ada rincian bulanan</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
         </div>

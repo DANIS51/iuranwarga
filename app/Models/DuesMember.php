@@ -14,7 +14,12 @@ class DuesMember extends Model
     protected $fillable = [
         'iduser',
         'idduescategory',
-        'status'
+        'status',
+        'bulan',          // ✅ tambahkan ini
+        'status',         // ✅ tambahkan ini
+        'tanggal_bayar',  // ✅ tambahkan ini
+        'idpayment',      // ✅ tambahkan ini
+
     ];
 
     public function user()

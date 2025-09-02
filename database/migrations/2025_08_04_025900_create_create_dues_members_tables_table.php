@@ -12,11 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('dues_members', function (Blueprint $table) {
-            $table->id();
-            $table->integer("iduser");
-            $table->integer("idduescategory");
-            $table->timestamps();
-        });
+        $table->id();
+        $table->unsignedBigInteger("iduser");
+        $table->unsignedBigInteger("idduescategory");
+        $table->string("bulan"); // contoh format: 2025-01, 2025-02
+        $table->enum("status", ['pending', 'paid'])->default('pending');
+        $table->date("tanggal_bayar")->nullable();
+        $table->unsignedBigInteger("idpayment")->nullable();
+        $table->timestamps();
+    });
+
     }
 
     /**

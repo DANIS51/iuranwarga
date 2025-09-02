@@ -46,16 +46,32 @@ class PaymentController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'iduser' => 'required|exists:users,id',
-            'idmember' => 'required|exists:dues_members,id',
-            'idduescategory' => 'required|exists:dues_categories,id',
-            'nominal' => 'required|numeric|min:0',
-            'payment_method' => 'required|in:cash,transfer,qris',
-            'payment_date' => 'required|date',
-            'notes' => 'nullable|string|max:500',
-            'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+{
+    $request->validate([
+        'iduser' => 'required|exists:users,id',
+        'idduescategory' => 'required|exists:dues_categories,id',
+        'nominal' => 'required|numeric|min:0',
+        'payment_method' => 'required|in:cash,transfer,qris',
+        'payment_date' => 'required|date',
+        'notes' => 'nullable|string|max:500',
+        'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+    ]);
+
+    DB::transaction(function() use ($request) {
+        $category = DuesCategory::findOrFail($request->idduescategory);
+        $nominal_per_bulan = $category->nominal;
+        $months_paid = floor($request->nominal / $nominal_per_bulan);
+
+        // Simpan payment dulu
+        $payment = Payment::create([
+            'iduser' => $request->iduser,
+            'idduescategory' => $request->idduescategory,
+            'nominal' => $request->nominal,
+            'payment_method' => $request->payment_method,
+            'payment_date' => $request->payment_date,
+            'status' => 'completed',
+            'notes' => $request->notes,
+            'petugas' => auth()->id(),
         ]);
 
         // Check if member is fully paid before creating payment
@@ -71,26 +87,51 @@ class PaymentController extends Controller
         $data = $request->all();
         $data['petugas'] = auth()->user()->id;
         $data['status'] = 'completed';
+        DuesMember::firstOrCreate(
+            [
+                'iduser' => $request->iduser,
+                'idduescategory' => $request->idduescategory,
+                'bulan' => now()->format('Y-m'),
+            ],
+            [
+                'status' => 'pending',
+            ]
+        );
 
-        // Handle file upload
-        if ($request->hasFile('bukti_pembayaran')) {
-            $file = $request->file('bukti_pembayaran');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('payment_proofs', $filename, 'public');
-            $data['bukti_pembayaran'] = $path;
+        // Ambil bulan pending sesuai user & kategori
+        $dues = DuesMember::where('iduser', $request->iduser)
+            ->where('idduescategory', $request->idduescategory)
+            ->where('status', 'pending')
+            ->orderBy('bulan', 'asc')
+            ->limit($months_paid)
+            ->get();
+
+        foreach ($dues as $d) {
+            $d->update([
+                'status' => 'paid',
+                'tanggal_bayar' => $request->payment_date,
+                'idpayment' => $payment->id,
+            ]);
         }
+    });
 
-        Payment::create($data);
+    return redirect()->route('admin.payments.index')
+        ->with('success', 'Pembayaran berhasil ditambahkan & cicilan terupdate');
+}
 
-        return redirect()->route('admin.payments.index')
-            ->with('success', 'Pembayaran berhasil ditambahkan');
-    }
 
     public function show($id)
     {
-        $payment = Payment::with(['user', 'member.user', 'member.duesCategory', 'duesCategory', 'officer.user'])->findOrFail($id);
-        return view('admin.payments.show', compact('payment'));
+        $payment = Payment::with(['user', 'duesCategory', 'officer'])->findOrFail($id);
+
+        // hitung jumlah bulan yang terbayar
+        $perBulan = $payment->duesCategory ? $payment->duesCategory->nominal : 0;
+        $jumlahBulan = $perBulan > 0 ? intval($payment->nominal / $perBulan) : 0;
+
+        return view('admin.payments.lihat', compact('payment', 'jumlahBulan'));
     }
+
+
 
     public function edit($id)
     {
