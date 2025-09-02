@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('create_payment_tables', function (Blueprint $table) {
+        Schema::table('payments', function (Blueprint $table) {
             $table->enum('status', ['pending', 'paid', 'cancelled'])->default('pending')->after('petugas');
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('create_payment_tables', function (Blueprint $table) {
+        Schema::table('payments', function (Blueprint $table) {
             $table->dropColumn('status');
         });
     }
