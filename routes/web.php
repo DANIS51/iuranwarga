@@ -89,6 +89,10 @@ Route::prefix('officer')->middleware(['officer'])->group(function () {
     Route::get('/dashboard', [OfficerController::class, 'dashboard'])->name('officer.dashboard');
     Route::post('/payments/{id}/approve', [OfficerController::class, 'approvePayment'])->name('officer.payments.approve');
     Route::post('/payments/{id}/reject', [OfficerController::class, 'rejectPayment'])->name('officer.payments.reject');
+
+    // Members routes for officer
+    Route::get('/members', [OfficerController::class, 'members'])->name('officer.members');
+    Route::get('/members/{id}/payments', [OfficerController::class, 'payments'])->name('officer.members.payments');
 });
 
 // Warga routes

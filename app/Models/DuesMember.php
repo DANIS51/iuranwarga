@@ -11,20 +11,14 @@ class DuesMember extends Model
 
     protected $table = 'dues_members';
 
-    
-    // App\Models\DuesMember.php
-
- 
-   
-
     const STATUS_LUNAS = 'lunas';
     const STATUS_BELUM_BAYAR = 'belum_bayar';
+    const STATUS_BELUM_LUNAS = 'belum_lunas';
 
-    // relasi dan atribut lainnya...
- 
     protected $fillable = [
         'iduser', 'idduescategory', 'bulan', 'status', 'tanggal_bayar', 'idpayment'
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'iduser');
@@ -50,10 +44,10 @@ class DuesMember extends Model
         return $this->hasOneThrough(
             Officer::class,
             DuesCategory::class,
-            'id',
-            'id',
-            'idduescategory',
-            'petugas'
+            'id',       // Foreign key on dues_categories table
+            'id',       // Foreign key on officers table
+            'idduescategory', // Local key on dues_members table
+            'petugas'   // Local key on dues_categories table (petugas = officer id)
         );
     }
 
@@ -69,7 +63,7 @@ class DuesMember extends Model
 
     public function getTotalPaymentsAttribute()
     {
-        return \App\Models\Payment::where('iduser', $this->iduser)
+        return Payment::where('iduser', $this->iduser)
             ->where('idduescategory', $this->idduescategory)
             ->where('status', 'completed')
             ->sum('nominal');
@@ -77,26 +71,25 @@ class DuesMember extends Model
 
     public function getPaymentStatusAttribute()
     {
-        // Use the persistent status field instead of computed
         switch (strtolower($this->status)) {
-            case 'lunas':
-                return 'Lunas';
-            case 'sebagian':
-                return 'Sebagian';
-            case 'belum_bayar':
+            case self::STATUS_LUNAS:
+                return 'lunas';
+            case self::STATUS_BELUM_LUNAS:
+                return 'belum_lunas';
+            case self::STATUS_BELUM_BAYAR:
             default:
-                return 'Belum Bayar';
+                return 'belum_bayar';
         }
     }
 
     public function getPaymentMessageAttribute()
     {
         switch ($this->status) {
-            case 'lunas':
+            case self::STATUS_LUNAS:
                 return 'Bayaran anda sudah lunas!!';
-            case 'sebagian':
+            case self::STATUS_SEBAGIAN:
                 return 'Pembayaran sebagian telah diterima.';
-            case 'belum_bayar':
+            case self::STATUS_BELUM_BAYAR:
             default:
                 return 'Belum ada pembayaran.';
         }

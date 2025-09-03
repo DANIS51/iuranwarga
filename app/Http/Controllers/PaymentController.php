@@ -56,6 +56,7 @@ class PaymentController extends Controller
     {
         $request->validate([
             'iduser' => 'required|exists:users,id',
+            'idmember' => 'nullable|exists:dues_members,id',
             'idduescategory' => 'required|exists:dues_categories,id',
             'nominal' => 'required|numeric|min:0',
             'payment_method' => 'required|in:cash,transfer,qris',
@@ -65,6 +66,14 @@ class PaymentController extends Controller
             'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
+        // Check if the dues member is already fully paid
+        if ($request->idmember) {
+            $duesMember = DuesMember::find($request->idmember);
+            if ($duesMember && $duesMember->status === DuesMember::STATUS_LUNAS) {
+                return redirect()->back()->with('error', 'Pembayaran sudah lunas, tidak bisa menambah pembayaran lagi.');
+            }
+        }
+
         DB::transaction(function () use ($request) {
             $category = DuesCategory::findOrFail($request->idduescategory);
             $nominal_per_bulan = $category->nominal;
@@ -73,7 +82,7 @@ class PaymentController extends Controller
             $officer = Officer::where('iduser', auth()->id())->first();
             $officerName = $officer ? $officer->user->name : 'Unknown';
 
-            $payment = Payment::create([
+            $paymentData = [
                 'iduser' => $request->iduser,
                 'idduescategory' => $request->idduescategory,
                 'nominal' => $request->nominal,
@@ -83,7 +92,17 @@ class PaymentController extends Controller
                 'status' => 'completed',
                 'notes' => $request->notes,
                 'petugas' => $officerName,
-            ]);
+            ];
+
+            // Upload bukti pembayaran jika ada
+            if ($request->hasFile('bukti_pembayaran')) {
+                $file = $request->file('bukti_pembayaran');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('payment_proofs', $filename, 'public');
+                $paymentData['bukti_pembayaran'] = $path;
+            }
+
+            $payment = Payment::create($paymentData);
 
             $currentMonth = date('Y-m', strtotime($request->payment_date));
             $paidMonths = [];
@@ -153,6 +172,7 @@ class PaymentController extends Controller
     {
         $request->validate([
             'iduser' => 'required|exists:users,id',
+            'idmember' => 'nullable|exists:dues_members,id',
             'idduescategory' => 'required|exists:dues_categories,id',
             'nominal' => 'required|numeric|min:0',
             'payment_method' => 'required|in:cash,transfer,qris',
