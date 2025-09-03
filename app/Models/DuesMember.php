@@ -11,15 +11,20 @@ class DuesMember extends Model
 
     protected $table = 'dues_members';
 
-    protected $fillable = [
-        'iduser',
-        'idduescategory',
-        'status',
-        'bulan',
-        'tanggal_bayar',
-        'idpayment',
-    ];
+    
+    // App\Models\DuesMember.php
 
+ 
+   
+
+    const STATUS_LUNAS = 'lunas';
+    const STATUS_BELUM_BAYAR = 'belum_bayar';
+
+    // relasi dan atribut lainnya...
+ 
+    protected $fillable = [
+        'iduser', 'idduescategory', 'bulan', 'status', 'tanggal_bayar', 'idpayment'
+    ];
     public function user()
     {
         return $this->belongsTo(User::class, 'iduser');
@@ -64,13 +69,16 @@ class DuesMember extends Model
 
     public function getTotalPaymentsAttribute()
     {
-        return $this->payments()->where('status', 'completed')->sum('nominal');
+        return \App\Models\Payment::where('iduser', $this->iduser)
+            ->where('idduescategory', $this->idduescategory)
+            ->where('status', 'completed')
+            ->sum('nominal');
     }
 
     public function getPaymentStatusAttribute()
     {
         // Use the persistent status field instead of computed
-        switch ($this->status) {
+        switch (strtolower($this->status)) {
             case 'lunas':
                 return 'Lunas';
             case 'sebagian':

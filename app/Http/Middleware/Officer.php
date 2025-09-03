@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class Warga
+class Officer
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,8 @@ class Warga
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()){
-            if(Auth::user()->level == 'warga'){
+        if (Auth::check()) {
+            if (Auth::user()->level == 'officer') {
                 return $next($request);
             }
             return redirect(route('home'));

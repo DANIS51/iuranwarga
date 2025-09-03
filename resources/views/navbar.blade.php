@@ -83,7 +83,15 @@
         <li class="nav-item"><a class="nav-link" href="#">Blog</a></li> --}}
       </ul>
 
-      <a href="{{ route('login') }}" class="btn btn-login ms-3 me-2">Masuk</a>
+      @auth
+        <span class="navbar-text me-3 text-white">Halo, {{ Auth::user()->name }}</span>
+        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+          @csrf
+          <button type="submit" class="btn btn-outline-light ms-3 me-2">Logout</button>
+        </form>
+      @else
+        <a href="{{ route('login') }}" class="btn btn-login ms-3 me-2">Masuk</a>
+      @endauth
     </div>
   </div>
 </nav>

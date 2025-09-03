@@ -23,7 +23,7 @@ class AdminDuesController extends Controller
             )
             ->join('users', 'dues_members.iduser', '=', 'users.id')
             ->join('dues_categories', 'dues_members.idduescategory', '=', 'dues_categories.id')
-            ->leftJoin('create_payment_tables as payments', function ($join) {
+            ->leftJoin('payments as payments', function ($join) {
                 $join->on('dues_members.iduser', '=', 'payments.iduser')
                     ->on('dues_categories.period', '=', 'payments.period');
             })

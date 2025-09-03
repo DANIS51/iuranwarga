@@ -18,8 +18,8 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama</th>
-                    <th>Email</th>
+                                    <th>Username</th>
+                    <th>Name</th>
                     <th>No HP</th>
                     <th>Jabatan</th>
                                 </tr>
@@ -28,8 +28,8 @@
                                 @forelse($officers as $index => $officer)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                    <td>{{ $officer->user->name ?? '-' }}</td>
-                    <td>{{ $officer->user->email ?? '-' }}</td>
+                                    <td>{{ $officer->user->username ?? '-' }}</td>
+                    <td>{{ $officer->user->name ?? '-' }}</td>
                     <td>{{ $officer->user->nohp ?? '-' }}</td>
                     <td>{{ $officer->position ?? 'Officer' }}</td>
                                 </tr>
@@ -62,6 +62,7 @@
                                 <tr>
                                     <th>No</th>
                     <th>Nama</th>
+                    <th>Username</th>
                     <th>No HP</th>
                     <th>Alamat</th>
                     <th>Aksi</th>
@@ -72,6 +73,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->name }}</td>
+                    <td>{{ $item->username }}</td>
                     <td>{{ $item->nohp }}</td>
                     <td>{{ $item->address }}</td>
                     <td>

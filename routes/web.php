@@ -7,6 +7,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ControllerCategori;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\OfficerController;
+use App\Http\Controllers\WargaController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -24,8 +27,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [RegisterController::class, 'show'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
-// Dashboard umum
-Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+ // Dashboard umum
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Admin routes
 Route::prefix('admin')->middleware(['admin'])->group(function () {
@@ -78,6 +81,20 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::put('/payments/{id}', [PaymentController::class, 'update'])->name('admin.payments.update');
     Route::delete('/payments/{id}', [PaymentController::class, 'destroy'])->name('admin.payments.destroy');
     Route::get('/payments/history/{userId}', [PaymentController::class, 'userHistory'])->name('payments.history');
+});
+
+// Officer routes
+Route::prefix('officer')->middleware(['officer'])->group(function () {
+    Route::get('/', [OfficerController::class, 'dashboard'])->name('officer');
+    Route::get('/dashboard', [OfficerController::class, 'dashboard'])->name('officer.dashboard');
+    Route::post('/payments/{id}/approve', [OfficerController::class, 'approvePayment'])->name('officer.payments.approve');
+    Route::post('/payments/{id}/reject', [OfficerController::class, 'rejectPayment'])->name('officer.payments.reject');
+});
+
+// Warga routes
+Route::prefix('warga')->middleware(['warga'])->group(function () {
+    Route::get('/', [WargaController::class, 'dashboard'])->name('warga');
+    Route::get('/dashboard', [WargaController::class, 'dashboard'])->name('warga.dashboard');
 });
 
 // Category routes (frontend)

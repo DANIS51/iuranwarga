@@ -36,7 +36,6 @@
                                     <th>Jenis Pembayaran</th>
                                     <th>Nominal</th>
                                     <th>Petugas</th>
-                                    <th>Status Pembayaran</th>
                                     <th>Total Dibayar</th>
                                     <th>Tanggal Bergabung</th>
                                     <th>Aksi</th>
@@ -52,11 +51,7 @@
                                     <td>{{ $member->duesCategory->payment_type ?? 'N/A' }}</td>
                                     <td>Rp {{ number_format($member->duesCategory->nominal ?? 0, 0, ',', '.') }}</td>
                                     <td>{{ $member->officer->officer_name ?? 'Tidak ada petugas' }}</td>
-                                    <td>
-                                        <span class="badge bg-{{ $member->payment_status == 'Lunas' ? 'success' : ($member->payment_status == 'Sebagian' ? 'warning' : 'danger') }}">
-                                            {{ $member->payment_status }}
-                                        </span>
-                                    </td>
+                                     
                                     <td>Rp {{ number_format($member->total_payments, 0, ',', '.') }}</td>
                                     <td>{{ $member->created_at ? $member->created_at->format('d/m/Y H:i') : 'N/A' }}</td>
                                     <td>

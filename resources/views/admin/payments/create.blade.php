@@ -24,7 +24,7 @@
                                     <select class="form-control @error('iduser') is-invalid @enderror" id="iduser" name="iduser" required>
                                         <option value="">Pilih Warga</option>
                                         @foreach($users as $user)
-                                            <option value="{{ $user->id }}" {{ old('iduser') == $user->id ? 'selected' : '' }}>
+                                            <option value="{{ $user->id }}" {{ (old('iduser') == $user->id || (isset($selectedUser) && $selectedUser == $user->id)) ? 'selected' : '' }}>
                                                 {{ $user->name }} - {{ $user->email }}
                                             </option>
                                         @endforeach
@@ -41,7 +41,7 @@
                                     <select class="form-control @error('idmember') is-invalid @enderror" id="idmember" name="idmember" required>
                                         <option value="">Pilih Anggota</option>
                                         @foreach($members as $member)
-                                            <option value="{{ $member->id }}" {{ old('idmember') == $member->id ? 'selected' : '' }}>
+                                            <option value="{{ $member->id }}" {{ (old('idmember') == $member->id || (isset($selectedMember) && $selectedMember == $member->id)) ? 'selected' : '' }}>
                                                 {{ $member->user ? $member->user->name : 'Unknown User' }} - {{ $member->duesCategory ? $member->duesCategory->name : 'Unknown Category' }}
                                             </option>
                                         @endforeach
@@ -60,7 +60,7 @@
                                     <select class="form-control @error('idduescategory') is-invalid @enderror" id="idduescategory" name="idduescategory" required>
                                         <option value="">Pilih Kategori</option>
                                         @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" {{ old('idduescategory') == $category->id ? 'selected' : '' }}>
+                                            <option value="{{ $category->id }}" {{ (old('idduescategory') == $category->id || (isset($selectedCategory) && $selectedCategory == $category->id)) ? 'selected' : '' }}>
                                                 {{ $category->name }} - Rp {{ number_format($category->nominal, 0, ',', '.') }}
                                             </option>
                                         @endforeach
@@ -102,6 +102,22 @@
                                     <label for="payment_date">Tanggal Pembayaran</label>
                                     <input type="date" class="form-control @error('payment_date') is-invalid @enderror" id="payment_date" name="payment_date" value="{{ old('payment_date', date('Y-m-d')) }}" required>
                                     @error('payment_date')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="period">Periode</label>
+                                    <select class="form-control @error('period') is-invalid @enderror" id="period" name="period" required>
+                                        <option value="mingguan" {{ old('period') == 'mingguan' ? 'selected' : '' }}>Mingguan</option>
+                                        <option value="bulanan" {{ old('period') == 'bulanan' ? 'selected' : '' }}>Bulanan</option>
+                                        <option value="tahunan" {{ old('period') == 'tahunan' ? 'selected' : '' }}>Tahunan</option>
+                                    </select>
+                                    @error('period')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

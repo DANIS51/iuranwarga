@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\Admin;
+use App\Http\Middleware\Officer;
 use App\Http\Middleware\Warga;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -15,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         //
         $middleware->appendToGroup('admin', Admin::class);
-
+        $middleware->appendToGroup('officer', Officer::class);
         $middleware->appendToGroup('warga', Warga::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {

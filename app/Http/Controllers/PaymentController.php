@@ -10,7 +10,6 @@ use App\Models\DuesCategory;
 use App\Models\Officer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -30,11 +29,18 @@ class PaymentController extends Controller
         $categories = DuesCategory::all();
         $officers = Officer::with('user')->get();
 
-        // Check if member is fully paid if member id is passed as query param
+        $selectedUser = null;
+        $selectedCategory = null;
+        $selectedMember = null;
+
         $memberId = request()->query('member');
         if ($memberId) {
             $member = DuesMember::with(['duesCategory', 'user'])->find($memberId);
             if ($member) {
+                $selectedUser = $member->iduser;
+                $selectedCategory = $member->idduescategory;
+                $selectedMember = $member->id;
+
                 $totalPaid = $member->total_payments;
                 $expectedAmount = $member->duesCategory ? $member->duesCategory->nominal : 0;
                 if ($totalPaid >= $expectedAmount) {
@@ -43,7 +49,7 @@ class PaymentController extends Controller
             }
         }
 
-        return view('admin.payments.create', compact('users', 'members', 'categories', 'officers'));
+        return view('admin.payments.create', compact('users', 'members', 'categories', 'officers', 'selectedUser', 'selectedCategory', 'selectedMember'));
     }
 
     public function store(Request $request)
@@ -54,40 +60,37 @@ class PaymentController extends Controller
             'nominal' => 'required|numeric|min:0',
             'payment_method' => 'required|in:cash,transfer,qris',
             'payment_date' => 'required|date',
+            'period' => 'required|in:mingguan,bulanan,tahunan',
             'notes' => 'nullable|string|max:500',
             'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        DB::transaction(function() use ($request) {
+        DB::transaction(function () use ($request) {
             $category = DuesCategory::findOrFail($request->idduescategory);
             $nominal_per_bulan = $category->nominal;
             $months_paid = floor($request->nominal / $nominal_per_bulan);
 
-            // Get officer id from logged in user
             $officer = Officer::where('iduser', auth()->id())->first();
-            $officerId = $officer ? $officer->id : null;
+            $officerName = $officer ? $officer->user->name : 'Unknown';
 
-            // If no officer found, set petugas to 0 or null to avoid DB error
-            if (is_null($officerId)) {
-                $officerId = 0; // or null if DB allows
-            }
-
-            // Simpan payment dulu
             $payment = Payment::create([
                 'iduser' => $request->iduser,
                 'idduescategory' => $request->idduescategory,
                 'nominal' => $request->nominal,
                 'payment_method' => $request->payment_method,
                 'payment_date' => $request->payment_date,
+                'period' => $request->period,
                 'status' => 'completed',
                 'notes' => $request->notes,
-                'petugas' => $officerId,
+                'petugas' => $officerName,
             ]);
 
-            // Create dues_members records for the months being paid
-            $currentMonth = now()->format('Y-m');
+            $currentMonth = date('Y-m', strtotime($request->payment_date));
+            $paidMonths = [];
             for ($i = 0; $i < $months_paid; $i++) {
-                $month = date('Y-m', strtotime($currentMonth . ' +' . $i . ' month'));
+                $month = date('Y-m', strtotime("$currentMonth +$i month"));
+                $paidMonths[] = $month;
+
                 DuesMember::firstOrCreate(
                     [
                         'iduser' => $request->iduser,
@@ -95,30 +98,30 @@ class PaymentController extends Controller
                         'bulan' => $month,
                     ],
                     [
-                        'status' => 'belum_bayar',
+                        'status' => DuesMember::STATUS_BELUM_BAYAR,
                     ]
                 );
             }
 
-            // Update the status of the dues_members records to 'lunas'
-            $dues = DuesMember::where('iduser', $request->iduser)
-                ->where('idduescategory', $request->idduescategory)
-                ->where('status', 'belum_bayar')
-                ->orderBy('bulan', 'asc')
-                ->limit($months_paid)
-                ->get();
+            if (!empty($paidMonths)) {
+                DuesMember::where('iduser', $request->iduser)
+                    ->where('idduescategory', $request->idduescategory)
+                    ->whereIn('bulan', $paidMonths)
+                    ->update([
+                        'status' => DuesMember::STATUS_LUNAS,
+                        'tanggal_bayar' => $request->payment_date,
+                        'idpayment' => $payment->id,
+                    ]);
 
-            foreach ($dues as $d) {
-                $d->update([
-                    'status' => 'lunas',
-                    'tanggal_bayar' => $request->payment_date,
-                    'idpayment' => $payment->id,
-                ]);
-            }
+                $firstDues = DuesMember::where('iduser', $request->iduser)
+                    ->where('idduescategory', $request->idduescategory)
+                    ->whereIn('bulan', $paidMonths)
+                    ->orderBy('bulan', 'asc')
+                    ->first();
 
-            // Set idmember to the first dues_member updated
-            if ($dues->isNotEmpty()) {
-                $payment->update(['idmember' => $dues->first()->id]);
+                if ($firstDues) {
+                    $payment->update(['idmember' => $firstDues->id]);
+                }
             }
         });
 
@@ -126,19 +129,14 @@ class PaymentController extends Controller
             ->with('success', 'Pembayaran berhasil ditambahkan & cicilan terupdate');
     }
 
-
     public function show($id)
     {
         $payment = Payment::with(['user', 'duesCategory', 'officer'])->findOrFail($id);
-
-        // hitung jumlah bulan yang terbayar
         $perBulan = $payment->duesCategory ? $payment->duesCategory->nominal : 0;
         $jumlahBulan = $perBulan > 0 ? intval($payment->nominal / $perBulan) : 0;
 
         return view('admin.payments.lihat', compact('payment', 'jumlahBulan'));
     }
-
-
 
     public function edit($id)
     {
@@ -154,40 +152,43 @@ class PaymentController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-    'iduser' => 'required|exists:users,id',
-    'idduescategory' => 'required|exists:dues_categories,id',
-    'nominal' => 'required|numeric|min:0',
-    'payment_method' => 'required|in:cash,transfer,qris',
-    'payment_date' => 'required|date',
-    'status' => 'required|in:pending,completed,cancelled',
-    'notes' => 'nullable|string|max:500',
-    'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-    ]);
+            'iduser' => 'required|exists:users,id',
+            'idduescategory' => 'required|exists:dues_categories,id',
+            'nominal' => 'required|numeric|min:0',
+            'payment_method' => 'required|in:cash,transfer,qris',
+            'payment_date' => 'required|date',
+            'period' => 'required|in:mingguan,bulanan,tahunan',
+            'status' => 'required|in:pending,completed,cancelled',
+            'notes' => 'nullable|string|max:500',
+            'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-    $payment = Payment::findOrFail($id);
-    $data = $request->all();
+        $payment = Payment::findOrFail($id);
+        $data = $request->all();
 
-    if ($request->hasFile('bukti_pembayaran')) {
-        if ($payment->bukti_pembayaran) {
-            Storage::disk('public')->delete($payment->bukti_pembayaran);
+        $officer = Officer::where('iduser', auth()->id())->first();
+        $officerName = $officer ? $officer->user->name : 'Unknown';
+        $data['petugas'] = $officerName;
+
+        if ($request->hasFile('bukti_pembayaran')) {
+            if ($payment->bukti_pembayaran) {
+                Storage::disk('public')->delete($payment->bukti_pembayaran);
+            }
+            $file = $request->file('bukti_pembayaran');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('payment_proofs', $filename, 'public');
+            $data['bukti_pembayaran'] = $path;
         }
-        $file = $request->file('bukti_pembayaran');
-        $filename = time().'_'.$file->getClientOriginalName();
-        $path = $file->storeAs('payment_proofs', $filename, 'public');
-        $data['bukti_pembayaran'] = $path;
-    }
 
-    $payment->update($data);
+        $payment->update($data);
 
-    return redirect()->route('admin.payments.index')->with('success', 'Pembayaran berhasil diperbarui');
-
+        return redirect()->route('admin.payments.index')->with('success', 'Pembayaran berhasil diperbarui');
     }
 
     public function destroy($id)
     {
         $payment = Payment::findOrFail($id);
 
-        // Delete file if exists
         if ($payment->bukti_pembayaran) {
             Storage::disk('public')->delete($payment->bukti_pembayaran);
         }
@@ -207,6 +208,4 @@ class PaymentController extends Controller
 
         return view('payments.history', compact('payments'));
     }
-
-    // Method API dihapus sesuai permintaan
 }

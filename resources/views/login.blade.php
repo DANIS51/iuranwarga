@@ -55,21 +55,21 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <!-- Email -->
+            <!-- Username -->
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
+                <label for="username" class="form-label">Username</label>
                 <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    <input type="email"
-                           id="email"
-                           name="email"
-                           class="form-control @error('email') is-invalid @enderror"
-                           placeholder="Masukkan email"
-                           value="{{ old('email') }}"
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text"
+                           id="username"
+                           name="username"
+                           class="form-control @error('username') is-invalid @enderror"
+                           placeholder="Masukkan username"
+                           value="{{ old('username') }}"
                            required
                            autofocus>
                 </div>
-                @error('email')
+                @error('username')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>

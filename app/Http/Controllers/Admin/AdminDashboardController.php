@@ -23,13 +23,13 @@ class AdminDashboardController extends Controller
         $pendingApprovals = Payment::where('status', 'pending')->count();
 
         $recentTransactions = Payment::select(
-                'create_payment_tables.*',
+                'payments.*',
                 'users.name as user_name',
                 'dues_categories.period as dues_category'
             )
-            ->join('users', 'create_payment_tables.iduser', '=', 'users.id')
-            ->join('dues_categories', 'create_payment_tables.idduescategory', '=', 'dues_categories.id')
-            ->orderBy('create_payment_tables.created_at', 'desc')
+            ->join('users', 'payments.iduser', '=', 'users.id')
+            ->join('dues_categories', 'payments.idduescategory', '=', 'dues_categories.id')
+            ->orderBy('payments.created_at', 'desc')
             ->limit(5)
             ->get();
 
@@ -55,13 +55,13 @@ class AdminDashboardController extends Controller
         $pendingApprovals = Payment::where('status', 'pending')->count();
 
         $recentTransactions = Payment::select(
-                'create_payment_tables.*',
+                'payments.*',
                 'users.name as user_name',
                 'dues_categories.period as dues_category'
             )
-            ->join('users', 'create_payment_tables.iduser', '=', 'users.id')
-            ->join('dues_categories', 'create_payment_tables.idduescategory', '=', 'dues_categories.id')
-            ->orderBy('create_payment_tables.created_at', 'desc')
+            ->join('users', 'payments.iduser', '=', 'users.id')
+            ->join('dues_categories', 'payments.idduescategory', '=', 'dues_categories.id')
+            ->orderBy('payments.created_at', 'desc')
             ->limit(5)
             ->get();
 

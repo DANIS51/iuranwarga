@@ -9,7 +9,7 @@
                     <h3 class="card-title">Edit Pembayaran</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.payments.update', $payment->id) }}" method="POST">
+                    <form action="{{ route('admin.payments.update', $payment->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -46,7 +46,7 @@
                             <select name="payment_method" id="payment_method" class="form-control">
                                 <option value="cash" {{ $payment->payment_method == 'cash' ? 'selected' : '' }}>Cash</option>
                                 <option value="transfer" {{ $payment->payment_method == 'transfer' ? 'selected' : '' }}>Transfer</option>
-                                <option value="ewallet" {{ $payment->payment_method == 'ewallet' ? 'selected' : '' }}>E-Wallet</option>
+                                <option value="qris" {{ $payment->payment_method == 'qris' ? 'selected' : '' }}>QRIS</option>
                             </select>
                         </div>
 
@@ -57,12 +57,32 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="period">Periode</label>
+                            <select name="period" id="period" class="form-control">
+                                <option value="mingguan" {{ $payment->period == 'mingguan' ? 'selected' : '' }}>Mingguan</option>
+                                <option value="bulanan" {{ $payment->period == 'bulanan' ? 'selected' : '' }}>Bulanan</option>
+                                <option value="tahunan" {{ $payment->period == 'tahunan' ? 'selected' : '' }}>Tahunan</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label for="status">Status</label>
                             <select name="status" id="status" class="form-control">
                                 <option value="pending" {{ $payment->status == 'pending' ? 'selected' : '' }}>Pending</option>
                                 <option value="completed" {{ $payment->status == 'completed' ? 'selected' : '' }}>Completed</option>
                                 <option value="cancelled" {{ $payment->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bukti_pembayaran">Bukti Pembayaran</label>
+                            <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="form-control" accept="image/*">
+                            <small class="form-text text-muted">Format: JPG, PNG, JPEG. Maksimal 2MB</small>
+                            @if($payment->bukti_pembayaran)
+                                <div class="mt-2">
+                                    <img src="{{ Storage::url($payment->bukti_pembayaran) }}" alt="Bukti Pembayaran" class="img-thumbnail" style="max-width: 200px;">
+                                </div>
+                            @endif
                         </div>
 
                         <button type="submit" class="btn btn-success">

@@ -67,10 +67,10 @@ class ControllerAdmin extends Controller
 
     //     $data['category_stats'] = Payment::select(
     //         'dues_categories.period as category',
-    //         DB::raw('SUM(create_payment_tables.nominal) as total')
+    //         DB::raw('SUM(payments.nominal) as total')
     //     )
-    //     ->join('dues_categories', 'create_payment_tables.period', '=', 'dues_categories.period')
-    //     ->whereYear('create_payment_tables.created_at', date('Y'))
+    //     ->join('dues_categories', 'payments.period', '=', 'dues_categories.period')
+    //     ->whereYear('payments.created_at', date('Y'))
     //     ->groupBy('dues_categories.period')
     //     ->get();
 

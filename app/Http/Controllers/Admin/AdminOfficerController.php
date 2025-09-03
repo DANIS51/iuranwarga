@@ -21,7 +21,7 @@ class AdminOfficerController extends Controller
             ->get();
 
         $users = User::where('level', 'warga')
-            ->select('id', 'name', 'email', 'nohp', 'address')
+            ->select('id', 'name', 'username', 'email', 'nohp', 'address')
             ->orderBy('created_at', 'desc')
             ->get();
 

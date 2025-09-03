@@ -15,9 +15,8 @@ class AdminMemberController extends Controller
      */
     public function members()
     {
-        $members = DuesMember::with(['user', 'duesCategory'])
-            ->select('dues_members.id', 'dues_members.iduser', 'dues_members.idduescategory')
-            ->orderBy('dues_members.created_at', 'desc')
+        $members = DuesMember::with(['user', 'duesCategory', 'payments', 'officer'])
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('admin.members', compact('members'));
@@ -58,6 +57,7 @@ class AdminMemberController extends Controller
         DuesMember::create([
             'iduser' => $request->iduser,
             'idduescategory' => $request->idduescategory,
+            'bulan' => date('Y-m'),
         ]);
 
         return redirect()->route('admin.members')
@@ -72,7 +72,8 @@ class AdminMemberController extends Controller
         try {
             $member = DuesMember::with(['user', 'duesCategory'])->findOrFail($id);
             $payments = \App\Models\Payment::with(['user', 'duesCategory', 'officer'])
-                ->where('idmember', $id)
+                ->where('iduser', $member->iduser)
+                ->where('idduescategory', $member->idduescategory)
                 ->orderBy('created_at', 'desc')
                 ->get();
 

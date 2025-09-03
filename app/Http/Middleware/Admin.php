@@ -18,10 +18,10 @@ class Admin
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            if (Auth::user()->level == "admin") {
+            if (Auth::user()->level == 'admin') {
                 return $next($request);
             }
-            return redirect(route("dashboard"));
+            return redirect(route('home'));
         }
         return redirect(route('login'));
     }
