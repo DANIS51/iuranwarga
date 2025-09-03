@@ -63,6 +63,13 @@
                                         <a href="{{ route('admin.members.payments', $member->id) }}" class="btn btn-sm btn-info">
                                             Lihat Pembayaran
                                         </a>
+                                        <form action="{{ route('admin.members.destroy', $member->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus anggota ini?')">
+                                                <i class="fas fa-trash"></i> Hapus
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @empty

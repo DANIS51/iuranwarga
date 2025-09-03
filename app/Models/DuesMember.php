@@ -15,11 +15,9 @@ class DuesMember extends Model
         'iduser',
         'idduescategory',
         'status',
-        'bulan',          // ✅ tambahkan ini
-        'status',         // ✅ tambahkan ini
-        'tanggal_bayar',  // ✅ tambahkan ini
-        'idpayment',      // ✅ tambahkan ini
-
+        'bulan',
+        'tanggal_bayar',
+        'idpayment',
     ];
 
     public function user()
@@ -30,6 +28,11 @@ class DuesMember extends Model
     public function duesCategory()
     {
         return $this->belongsTo(DuesCategory::class, 'idduescategory');
+    }
+
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class, 'idpayment');
     }
 
     public function payments()
@@ -61,7 +64,7 @@ class DuesMember extends Model
 
     public function getTotalPaymentsAttribute()
     {
-        return $this->payments()->sum('nominal');
+        return $this->payments()->where('status', 'completed')->sum('nominal');
     }
 
     public function getPaymentStatusAttribute()

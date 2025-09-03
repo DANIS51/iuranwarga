@@ -51,6 +51,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/members/add', [\App\Http\Controllers\Admin\AdminMemberController::class, 'create'])->name('admin.members.add');
     Route::post('/members', [\App\Http\Controllers\Admin\AdminMemberController::class, 'store'])->name('admin.members.store');
     Route::get('/members/{id}/payments', [\App\Http\Controllers\Admin\AdminMemberController::class, 'payments'])->name('admin.members.payments');
+    Route::delete('/members/{id}', [\App\Http\Controllers\Admin\AdminMemberController::class, 'destroy'])->name('admin.members.destroy');
 
     // Dues
     Route::get('/dues', [\App\Http\Controllers\Admin\AdminDuesController::class, 'dues'])->name('admin.dues');

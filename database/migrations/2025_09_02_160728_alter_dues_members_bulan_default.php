@@ -8,10 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('dues_members', function (Blueprint $table) {
-            // Ubah kolom bulan agar punya default value
-            $table->string('bulan')->default(date('Y-m'))->change();
-        });
+        if (!Schema::hasColumn('dues_members', 'bulan')) {
+            Schema::table('dues_members', function (Blueprint $table) {
+                $table->string('bulan')->default(date('Y-m'))->after('idduescategory');
+            });
+        } else {
+            Schema::table('dues_members', function (Blueprint $table) {
+                // Ubah kolom bulan agar punya default value
+                $table->string('bulan')->default(date('Y-m'))->change();
+            });
+        }
     }
 
     public function down(): void

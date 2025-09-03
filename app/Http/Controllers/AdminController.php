@@ -29,10 +29,10 @@ class AdminController extends Controller
         $recentTransactions = Payment::select(
                 'payments.*',
                 'users.name as user_name',
-                'dues_categories.period as dues_category'
+                'dues_categories.name as dues_category'
             )
             ->join('users', 'payments.iduser', '=', 'users.id')
-            ->join('dues_categories', 'payments.period', '=', 'dues_categories.period')
+            ->join('dues_categories', 'payments.idduescategory', '=', 'dues_categories.id')
             ->orderBy('payments.created_at', 'desc')
             ->limit(5)
             ->get();
@@ -217,7 +217,7 @@ class AdminController extends Controller
     public function members()
     {
         $members = DuesMember::with(['user', 'duesCategory'])
-            ->select('dues_members.id', 'dues_members.iduser', 'dues_members.idduescategory')
+            ->select('dues_members.id', 'dues_members.iduser', 'dues_members.idduescategory', 'dues_members.status', 'dues_members.idpayment', 'dues_members.bulan', 'dues_members.tanggal_bayar', 'dues_members.created_at')
             ->orderBy('dues_members.created_at', 'desc')
             ->get();
 
@@ -234,13 +234,13 @@ class AdminController extends Controller
         $pendingApprovals = Payment::where('status', 'pending')->count();
 
         $recentTransactions = Payment::select(
-                'create_payment_tables.*',
+                'payments.*',
                 'users.name as user_name',
-                'dues_categories.period as dues_category'
+                'dues_categories.name as dues_category'
             )
-            ->join('users', 'create_payment_tables.iduser', '=', 'users.id')
-            ->join('dues_categories', 'create_payment_tables.idduescategory', '=', 'dues_categories.id')
-            ->orderBy('create_payment_tables.created_at', 'desc')
+            ->join('users', 'payments.iduser', '=', 'users.id')
+            ->join('dues_categories', 'payments.idduescategory', '=', 'dues_categories.id')
+            ->orderBy('payments.created_at', 'desc')
             ->limit(5)
             ->get();
 

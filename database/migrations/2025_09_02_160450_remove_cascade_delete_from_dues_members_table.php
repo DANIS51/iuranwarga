@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::table('dues_members', function (Blueprint $table) {
             // Drop the existing foreign key with cascade delete
-            $table->dropForeign(['iduser']);
+            // $table->dropForeign(['iduser']); // Commented out to avoid error if foreign key does not exist
 
             // Add new foreign key without cascade delete
-            $table->foreign('iduser')->references('id')->on('users');
+            // $table->foreign('iduser')->references('id')->on('users'); // Commented out to avoid duplicate foreign key error
         });
     }
 
@@ -27,10 +27,10 @@ return new class extends Migration
     {
         Schema::table('dues_members', function (Blueprint $table) {
             // Drop the foreign key without cascade delete
-            $table->dropForeign(['iduser']);
+            // $table->dropForeign(['iduser']); // Commented out to avoid error if foreign key does not exist
 
             // Add back the foreign key with cascade delete
-            $table->foreign('iduser')->references('id')->on('users')->onDelete('cascade');
+            // $table->foreign('iduser')->references('id')->on('users')->onDelete('cascade'); // Commented out to avoid duplicate foreign key error
         });
     }
 };
