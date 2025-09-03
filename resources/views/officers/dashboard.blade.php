@@ -1,4 +1,4 @@
-@extends('template')
+@extends('officers.template')
 
 @section('content')
 <div class="container-fluid px-4">
