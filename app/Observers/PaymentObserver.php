@@ -47,7 +47,7 @@ class PaymentObserver
         if ($totalPaid >= $expectedAmount) {
             $status = 'lunas';
         } elseif ($totalPaid > 0) {
-            $status = 'sebagian';
+            $status = 'belum_lunas';
         } else {
             $status = 'belum_bayar';
         }

@@ -159,12 +159,7 @@
                         </button>
                     </div>
 
-                    <div class="text-center mt-3">
-                        <p class="mb-0">
-                            Sudah punya akun?
-                            <a href="{{ route('login') }}" class="text-decoration-none">Login disini</a>
-                        </p>
-                    </div>
+                  
                 </form>
             </div>
         </div>

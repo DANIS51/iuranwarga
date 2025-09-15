@@ -42,8 +42,8 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.payments.index') }}">
-                <i class="bi bi-cash-coin me-2"></i> Data Pembayaran
+            <a class="nav-link" href="{{ route('admin.user') }}">
+                <i class="bi bi-person-lines-fill me-2"></i> Tambah warga
             </a>
         </li>
         <li class="nav-item">

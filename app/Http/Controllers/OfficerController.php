@@ -113,4 +113,34 @@ class OfficerController extends Controller
                 ->with('error', 'Data anggota tidak ditemukan!');
         }
     }
+
+    // New method to show all payments for officer
+    public function allPayments(Request $request)
+    {
+        $query = Payment::with(['user', 'duesCategory', 'officer']);
+
+        // Filter by status
+        if ($request->has('status') && $request->status != '') {
+            $query->where('status', $request->status);
+        }
+
+        // Filter by payment method
+        if ($request->has('payment_method') && $request->payment_method != '') {
+            $query->where('payment_method', $request->payment_method);
+        }
+
+        // Search by user name or payment amount
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('user', function ($userQuery) use ($search) {
+                    $userQuery->where('name', 'like', "%$search%");
+                })->orWhere('nominal', 'like', "%$search%");
+            });
+        }
+
+        $payments = $query->orderBy('created_at', 'desc')->paginate(15);
+
+        return view('officer.payments.index', compact('payments'));
+    }
 }

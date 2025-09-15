@@ -25,17 +25,17 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('officer.payments.approve') }}">
+            <a class="nav-link" href="{{ route('officer.members') }}">
                 <i class="bi bi-person-lines-fill me-2"></i> Data Anggota Iuran
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('officer.payments.reject') }}">
+            <a class="nav-link" href="{{ route('officer.payments.index') }}">
                 <i class="bi bi-cash-coin me-2"></i> Data Pembayaran
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('officers') }}">
+            <a class="nav-link" href="{{ route('officer.payments.create') }}">
                 <i class="bi bi-plus-circle me-2"></i> Tambah Pembayaran
             </a>
         </li>

@@ -52,6 +52,20 @@ class PaymentController extends Controller
         return view('admin.payments.create', compact('users', 'members', 'categories', 'officers', 'selectedUser', 'selectedCategory', 'selectedMember'));
     }
 
+    public function createForOfficer()
+    {
+        $users = User::where('level', 'warga')->get();
+        $members = DuesMember::with(['user', 'duesCategory'])->get();
+        $categories = DuesCategory::all();
+        $officers = Officer::with('user')->get();
+
+        $selectedUser = null;
+        $selectedCategory = null;
+        $selectedMember = null;
+
+        return view('officer.payments.create', compact('users', 'members', 'categories', 'officers', 'selectedUser', 'selectedCategory', 'selectedMember'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -82,8 +96,23 @@ class PaymentController extends Controller
             $officer = Officer::where('iduser', auth()->id())->first();
             $officerName = $officer ? $officer->user->name : 'Unknown';
 
+            $currentMonth = date('Y-m', strtotime($request->payment_date));
+
+            // Always find or create a dues_member for the current month to link the payment
+            $duesMember = DuesMember::firstOrCreate(
+                [
+                    'iduser' => $request->iduser,
+                    'idduescategory' => $request->idduescategory,
+                    'bulan' => $currentMonth,
+                ],
+                [
+                    'status' => DuesMember::STATUS_BELUM_BAYAR,
+                ]
+            );
+
             $paymentData = [
                 'iduser' => $request->iduser,
+                'idmember' => $duesMember->id,
                 'idduescategory' => $request->idduescategory,
                 'nominal' => $request->nominal,
                 'payment_method' => $request->payment_method,
@@ -104,7 +133,6 @@ class PaymentController extends Controller
 
             $payment = Payment::create($paymentData);
 
-            $currentMonth = date('Y-m', strtotime($request->payment_date));
             $paidMonths = [];
             for ($i = 0; $i < $months_paid; $i++) {
                 $month = date('Y-m', strtotime("$currentMonth +$i month"));
@@ -131,20 +159,26 @@ class PaymentController extends Controller
                         'tanggal_bayar' => $request->payment_date,
                         'idpayment' => $payment->id,
                     ]);
-
-                $firstDues = DuesMember::where('iduser', $request->iduser)
-                    ->where('idduescategory', $request->idduescategory)
-                    ->whereIn('bulan', $paidMonths)
-                    ->orderBy('bulan', 'asc')
-                    ->first();
-
-                if ($firstDues) {
-                    $payment->update(['idmember' => $firstDues->id]);
-                }
             }
+
+            // Update the dues_member status based on total payments
+            $totalPaid = $duesMember->payments()->where('status', 'completed')->sum('nominal');
+            $expectedAmount = $category->nominal;
+
+            if ($totalPaid >= $expectedAmount) {
+                $duesMember->status = DuesMember::STATUS_LUNAS;
+            } elseif ($totalPaid > 0) {
+                $duesMember->status = DuesMember::STATUS_BELUM_LUNAS;
+            } else {
+                $duesMember->status = DuesMember::STATUS_BELUM_BAYAR;
+            }
+
+            $duesMember->save();
         });
 
-        return redirect()->route('admin.payments.index')
+        $redirectRoute = auth()->user()->level === 'admin' ? 'admin.payments.index' : 'officer.dashboard';
+
+        return redirect()->route($redirectRoute)
             ->with('success', 'Pembayaran berhasil ditambahkan & cicilan terupdate');
     }
 

@@ -14,6 +14,7 @@ class DuesMember extends Model
     const STATUS_LUNAS = 'lunas';
     const STATUS_BELUM_BAYAR = 'belum_bayar';
     const STATUS_BELUM_LUNAS = 'belum_lunas';
+    const STATUS_SEBAGIAN = 'belum_lunas'; // Alias for backward compatibility
 
     protected $fillable = [
         'iduser', 'idduescategory', 'bulan', 'status', 'tanggal_bayar', 'idpayment'
@@ -75,6 +76,7 @@ class DuesMember extends Model
             case self::STATUS_LUNAS:
                 return 'lunas';
             case self::STATUS_BELUM_LUNAS:
+            case 'sebagian':  
                 return 'belum_lunas';
             case self::STATUS_BELUM_BAYAR:
             default:
@@ -87,7 +89,8 @@ class DuesMember extends Model
         switch ($this->status) {
             case self::STATUS_LUNAS:
                 return 'Bayaran anda sudah lunas!!';
-            case self::STATUS_SEBAGIAN:
+            case self::STATUS_BELUM_LUNAS:
+            case 'sebagian':  
                 return 'Pembayaran sebagian telah diterima.';
             case self::STATUS_BELUM_BAYAR:
             default:
