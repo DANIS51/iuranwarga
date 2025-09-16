@@ -1,4 +1,4 @@
-  @extends('admin.template')
+  @extends('admin.template.warga')
   @section('content')
   <div class="row">
         <div class="col-12">
@@ -55,4 +55,3 @@
         </div>
     </div>
   @endsection
-  

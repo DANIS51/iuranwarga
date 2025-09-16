@@ -33,7 +33,8 @@ class AdminOfficerController extends Controller
      */
     public function addOfficer()
     {
-        return view('admin.officers.add');
+        $data['user'] = User::all();
+        return view('admin.officers.add', $data);
     }
 
     /**
@@ -41,32 +42,40 @@ class AdminOfficerController extends Controller
      */
     public function storeOfficer(Request $request)
     {
-        $request->validate([
-            'username' => 'required|string|unique:users,username',
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'nohp'     => 'required|string|max:15',
-            'address'  => 'required|string|max:255',
-            'position' => 'required|string',
+        // $request->validate([
+        //     'username' => 'required|string|unique:users,username',
+        //     'name'     => 'required|string|max:255',
+        //     'email'    => 'required|email|unique:users,email',
+        //     'password' => 'required|string|min:8|confirmed',
+        //     'nohp'     => 'required|string|max:15',
+        //     'address'  => 'required|string|max:255',
+        //     'position' => 'required|string',
+        // ]);
+
+        $validasi = $request->validate([
+            'id_user' => 'required'
         ]);
 
-        // Create user
-        $user = User::create([
-            'name'     => $request->name,
-            'username' => $request->username,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-            'nohp'     => $request->nohp,
-            'address'  => $request->address,
-            'level'    => 'warga',
+        $id = $request['id_user'];
+
+        $user = User::findOrFail($id);
+
+        // Check if user is already an officer
+        if ($user->level === 'officer') {
+            return redirect()->route('admin.officers')->with('error', 'User sudah menjadi officer.');
+        }
+
+        $user->update([
+            'level' => 'officer'
         ]);
 
-        // Create officer record
-        Officer::create([
-            'iduser'   => $user->id,
-            'position' => $request->position,
-        ]);
+        // Check if officer record already exists
+        if (!Officer::where('iduser', $id)->exists()) {
+            Officer::create([
+                'iduser'   => $id,
+                'position' => 'Officer',
+            ]);
+        }
 
         return redirect()->route('admin.officers')->with('success', 'Petugas berhasil ditambahkan');
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DuesMember;
 use App\Models\Payment;
 use App\Models\User;
+use App\Models\DuesCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,12 +34,15 @@ class OfficerController extends Controller
         $totalApproved = Payment::where('status', 'approved')->count();
         $totalRejected = Payment::where('status', 'rejected')->count();
 
+        $categories = DuesCategory::all();
+
         return view('officer.dashboard', compact(
             'pendingPayments',
             'recentPayments',
             'totalPending',
             'totalApproved',
-            'totalRejected'
+            'totalRejected',
+            'categories'
         ));
     }
 
@@ -93,7 +97,9 @@ class OfficerController extends Controller
         $totalPaid = $query->where('status', 'lunas')->count();
         $totalUnpaid = $query->where('status', 'belum_bayar')->count();
 
-        return view('officer.members', compact('members', 'totalMembers', 'totalPaid', 'totalUnpaid'));
+        $categories = DuesCategory::all();
+
+        return view('officer.members', compact('members', 'totalMembers', 'totalPaid', 'totalUnpaid', 'categories'));
     }
 
     // New method to show payments for a member for officer
@@ -107,7 +113,9 @@ class OfficerController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
 
-            return view('officer.members.payments', compact('member', 'payments'));
+            $categories = DuesCategory::all();
+
+            return view('officer.members.payments', compact('member', 'payments', 'categories'));
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return redirect()->route('officer.members')
                 ->with('error', 'Data anggota tidak ditemukan!');
@@ -141,6 +149,8 @@ class OfficerController extends Controller
 
         $payments = $query->orderBy('created_at', 'desc')->paginate(15);
 
-        return view('officer.payments.index', compact('payments'));
+        $categories = DuesCategory::all();
+
+        return view('officer.payments.index', compact('payments', 'categories'));
     }
 }

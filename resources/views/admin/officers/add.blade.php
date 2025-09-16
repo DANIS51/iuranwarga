@@ -55,7 +55,18 @@
                     <form action="{{ route('admin.officers.store') }}" method="POST">
                         @csrf
 
-                        <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Username</label>
+                            <select name="id_user" id="">
+                                @foreach ($user as $item)
+                                <option value="{{ $item->id }}">
+                                    {{ $item->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{--  <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label>Username</label>
                                 <input type="text" name="username" class="form-control" required>
@@ -95,7 +106,7 @@
                                 <label>Konfirmasi Password</label>
                                 <input type="password" name="password_confirmation" class="form-control" required>
                             </div>
-                        </div>
+                        </div>  --}}
 
                         <div class="row mt-3">
                             <div class="col-12">

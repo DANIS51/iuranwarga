@@ -10,7 +10,7 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Data Officer</h5>
-                    <a href="{{ route('admin.officers.add') }}" class="btn btn-primary mb-3">+ Tambah Oficer</a>
+                    <a href="{{ route('admin.officers.add') }}" class="btn btn-primary mb-3">+ Tambah Officer</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -46,8 +46,8 @@
         </div>
     </div>
 
-    <!-- Warga Section -->
-  
+    
+
 </div>
 @endsection
 

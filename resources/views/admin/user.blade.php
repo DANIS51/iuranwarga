@@ -30,6 +30,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>User name</th>
                             <th>No HP</th>
                             <th>Alamat</th>
                             <th>Aksi</th>
@@ -40,6 +41,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->name }}</td>
+                            <td>{{ $item->username }}</td>
                             <td>{{ $item->nohp }}</td>
                             <td>{{ $item->address }}</td>
                             <td>

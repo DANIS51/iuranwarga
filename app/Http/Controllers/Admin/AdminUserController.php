@@ -15,8 +15,8 @@ class AdminUserController extends Controller
      */
     public function users()
     {
-        $users = User::where('level', 'warga')
-            ->select('id', 'name', 'email', 'nohp', 'address', 'level as role')
+$users = User::where('level', 'warga')
+            ->select('id', 'name', 'username', 'email', 'nohp', 'address', 'level as role')
             ->orderBy('created_at', 'desc')
             ->get();
 
