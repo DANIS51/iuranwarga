@@ -23,34 +23,17 @@
                 <i class="bi bi-speedometer2 me-2"></i> Dashboard
             </a>
         </li>
-         
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.members') }}">
-                <i class="bi bi-person-lines-fill me-2"></i> Data Anggota Iuran
-            </a>
-        </li>
+
+
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.officers') }}">
                 <i class="bi bi-person-badge-fill me-2"></i> Officer
             </a>
         </li>
-        
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('categories.index') }}">
-                <i class="bi bi-tags-fill me-2"></i> Daftar Kategori
-            </a>
-        </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.user') }}">
-                <i class="bi bi-person-lines-fill me-2"></i> Tambah warga
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.payments.create') }}">
-                <i class="bi bi-plus-circle me-2"></i> Tambah Pembayaran
-            </a>
-        </li>
+
+
+        
 
         <li class="nav-item mt-auto">
             <button type="button" class="nav-link border-0 bg-transparent w-100 text-start" data-bs-toggle="modal" data-bs-target="#logoutModal">
