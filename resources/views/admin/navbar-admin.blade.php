@@ -30,6 +30,11 @@
                 <i class="bi bi-person-badge-fill me-2"></i> Officer
             </a>
         </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.user') }}">
+                <i class="bi bi-person me-2"></i> Tambah warga
+            </a>
+        </li>
 
 
 
