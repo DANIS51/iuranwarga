@@ -43,7 +43,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::post('/users/edit/{id}', [\App\Http\Controllers\Admin\AdminUserController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/users/{id}', [\App\Http\Controllers\Admin\AdminUserController::class, 'destroyUser'])->name('admin.users.destroy');
 
-    
+
     Route::get('/officers', [\App\Http\Controllers\Admin\AdminOfficerController::class, 'officers'])->name('admin.officers');
     Route::get('/officers/add', [\App\Http\Controllers\Admin\AdminOfficerController::class, 'addOfficer'])->name('admin.officers.add');
     Route::post('/officers/store', [\App\Http\Controllers\Admin\AdminOfficerController::class, 'storeOfficer'])->name('admin.officers.store');
@@ -94,6 +94,9 @@ Route::prefix('officer')->middleware(['officer'])->group(function () {
     // Members routes for officer
     Route::get('/members', [OfficerController::class, 'members'])->name('officer.members');
     Route::get('/members/{id}/payments', [OfficerController::class, 'payments'])->name('officer.members.payments');
+
+    // Categories routes for officer
+    Route::get('/categories', [OfficerController::class, 'categories'])->name('officer.categories.index');
 
     // Payments routes for officer
     Route::get('/payments', [OfficerController::class, 'allPayments'])->name('officer.payments.index');

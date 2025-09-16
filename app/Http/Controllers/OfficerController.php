@@ -153,4 +153,12 @@ class OfficerController extends Controller
 
         return view('officer.payments.index', compact('payments', 'categories'));
     }
+
+    // New method to show categories for officer
+    public function categories()
+    {
+        $categories = DuesCategory::with('officer.user')->get();
+        return view('officer.categories.index', compact('categories'));
+    }
 }
+

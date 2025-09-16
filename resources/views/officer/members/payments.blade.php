@@ -1,4 +1,4 @@
-@extends('template')
+@extends('officer.template')
 
 @section('title', 'Pembayaran Anggota - ' . $member->user->name)
 
