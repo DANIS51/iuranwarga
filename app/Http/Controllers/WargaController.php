@@ -32,7 +32,7 @@ class WargaController extends Controller
             return $duesMember->duesCategory->nominal ?? 0;
         });
 
-        return view('officers.dashboard', compact(
+        return view('warga.dashboard', compact(
             'duesMembers',
             'payments',
             'totalPaid',
