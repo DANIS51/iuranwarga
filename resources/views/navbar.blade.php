@@ -74,24 +74,34 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="#beranda">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#fitur">Fitur</a></li>
-        <li class="nav-item"><a class="nav-link" href="#testimoni">Testimoni</a></li>
-        <li class="nav-item"><a class="nav-link" href="#kontak">Contact</a></li>
-        {{-- <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Blog</a></li> --}}
-      </ul>
-
       @auth
-        <span class="navbar-text me-3 text-white">Halo, {{ Auth::user()->name }}</span>
-        <form method="POST" action="{{ route('logout') }}" class="d-inline">
-          @csrf
-          <button type="submit" class="btn btn-outline-light ms-3 me-2">Logout</button>
-        </form>
+        <span class="navbar-text me-3 text-white ms-auto">Halo, {{ Auth::user()->name }}</span>
+        <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#logoutModal">Keluar</button>
       @else
-        <a href="{{ route('login') }}" class="btn btn-login ms-3 me-2">Masuk</a>
+        <a href="{{ route('login') }}" class="btn btn-login ms-auto">Masuk</a>
       @endauth
     </div>
   </div>
 </nav>
+
+<!-- Keluar Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Keluar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda yakin ingin keluar?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+          @csrf
+          <button type="submit" class="btn btn-primary">Ya, Keluar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
