@@ -50,11 +50,6 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::delete('/officers/{id}', [\App\Http\Controllers\Admin\AdminOfficerController::class, 'destroyOfficer'])->name('admin.officers.destroy');
 
     // Members
-    Route::get('/members', [\App\Http\Controllers\Admin\AdminMemberController::class, 'members'])->name('admin.members');
-    Route::get('/members/add', [\App\Http\Controllers\Admin\AdminMemberController::class, 'create'])->name('admin.members.add');
-    Route::post('/members', [\App\Http\Controllers\Admin\AdminMemberController::class, 'store'])->name('admin.members.store');
-    Route::get('/members/{id}/payments', [\App\Http\Controllers\Admin\AdminMemberController::class, 'payments'])->name('admin.members.payments');
-    Route::delete('/members/{id}', [\App\Http\Controllers\Admin\AdminMemberController::class, 'destroy'])->name('admin.members.destroy');
 
     // Dues
     Route::get('/dues', [\App\Http\Controllers\Admin\AdminDuesController::class, 'dues'])->name('admin.dues');
@@ -90,6 +85,12 @@ Route::prefix('officer')->middleware(['officer'])->group(function () {
     Route::post('/payments/{id}/approve', [OfficerController::class, 'approvePayment'])->name('officer.payments.approve');
     Route::post('/payments/{id}/reject', [OfficerController::class, 'rejectPayment'])->name('officer.payments.reject');
     Route::get('/officers', [\App\Http\Controllers\Admin\AdminOfficerController::class, 'officers'])->name('officers');
+    Route::get('/members/add', [\App\Http\Controllers\Admin\AdminMemberController::class, 'create'])->name('admin.members.add');
+    Route::get('/members', [\App\Http\Controllers\Admin\AdminMemberController::class, 'members'])->name('admin.members');
+    Route::post('/members', [\App\Http\Controllers\Admin\AdminMemberController::class, 'store'])->name('admin.members.store');
+
+    Route::get('/members/{id}/payments', [\App\Http\Controllers\Admin\AdminMemberController::class, 'payments'])->name('admin.members.payments');
+    Route::delete('/members/{id}', [\App\Http\Controllers\Admin\AdminMemberController::class, 'destroy'])->name('officer.members.destroy');
 
     // Members routes for officer
     Route::get('/members', [OfficerController::class, 'members'])->name('officer.members');

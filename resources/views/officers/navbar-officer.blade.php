@@ -25,7 +25,7 @@ xam<style>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('officer.members') }}">
+            <a class="nav-link" href="{{ route('admin.officers') }}">
                 <i class="bi bi-person-lines-fill me-2"></i> Data Anggota Iuran
             </a>
         </li>

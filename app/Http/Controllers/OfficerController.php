@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DuesMember;
+use App\Models\Officer;
 use App\Models\Payment;
 use App\Models\User;
 use App\Models\DuesCategory;

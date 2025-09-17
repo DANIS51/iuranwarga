@@ -29,7 +29,7 @@ class AdminMemberController extends Controller
     {
         $users = User::where('level', 'warga')->get();
         $duesCategories = DuesCategory::all();
-        
+
         return view('admin.members.add', compact('users', 'duesCategories'));
     }
 
@@ -60,7 +60,7 @@ class AdminMemberController extends Controller
             'bulan' => date('Y-m'),
         ]);
 
-        return redirect()->route('admin.members')
+        return redirect()->route('officer.members')
             ->with('success', 'Anggota iuran berhasil ditambahkan!');
     }
 
@@ -79,7 +79,7 @@ class AdminMemberController extends Controller
 
             return view('admin.members.payments', compact('member', 'payments'));
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->route('admin.members')
+            return redirect()->route('officer.members')
                 ->with('error', 'Data anggota tidak ditemukan!');
         }
     }
@@ -94,16 +94,16 @@ class AdminMemberController extends Controller
 
             // Check if member has any payments
             if ($member->payments()->count() > 0) {
-                return redirect()->route('admin.members')
+                return redirect()->route('officer.members')
                     ->with('error', 'Tidak dapat menghapus anggota yang memiliki riwayat pembayaran!');
             }
 
             $member->delete();
 
-            return redirect()->route('admin.members')
+            return redirect()->route('officer.members')
                 ->with('success', 'Anggota iuran berhasil dihapus!');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->route('admin.members')
+            return redirect()->route('officer.members')
                 ->with('error', 'Data anggota tidak ditemukan!');
         }
     }

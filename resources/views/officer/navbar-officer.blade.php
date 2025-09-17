@@ -75,7 +75,7 @@
 
     <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="#beranda">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('officer.payments.index' ) }}">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('officer.members') }}">Data anggota iuran</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('officer.categories.index') }}">Daftar kategori</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('officer.payments.index') }}">Pembayaran</a></li>
